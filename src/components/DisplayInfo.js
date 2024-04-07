@@ -1,14 +1,38 @@
 import React from 'react';
 
 class DisplayInfo extends React.Component {
+    state = {
+        isShowListUser: true,
+    };
+
+    handleShowHide(event) {
+        this.setState({
+            isShowListUser: !this.state.isShowListUser,
+        });
+    }
+
     render() {
         //Destructuring Array/Object
-        const { age, name } = this.props;
-        console.log(this.props);
+        const { listUsers } = this.props;
         return (
             <div>
-                <div>My name is {name}</div>
-                <div>My age is {age}</div>
+                <div onClick={(event) => this.handleShowHide(event)}>
+                    {this.state.isShowListUser === true ? 'Hide user list' : 'Show user list'}
+                </div>
+                {this.state.isShowListUser && (
+                    <div>
+                        {listUsers.map((user, index) => {
+                            return (
+                                <div key={user.id} className={+user.age >= 21 ? 'green' : 'red'}>
+                                    <div>My name is {user.name}</div>
+                                    <div>My age is {user.age}</div>
+                                    <div>I am studying in {user.major}</div>
+                                    <hr />
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         );
     }
