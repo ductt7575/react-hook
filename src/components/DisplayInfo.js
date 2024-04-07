@@ -12,13 +12,12 @@ class DisplayInfo extends React.Component {
             isShowListUser: !this.state.isShowListUser,
         });
     }
-
+    handleDelete(event) {}
     render() {
         //Destructuring Array/Object
         const { listUsers } = this.props;
         return (
             <div className="display-info-container">
-                <img src={logo} />
                 <div onClick={(event) => this.handleShowHide(event)}>
                     {this.state.isShowListUser === true ? 'Hide user list' : 'Show user list'}
                 </div>
@@ -26,12 +25,21 @@ class DisplayInfo extends React.Component {
                     <>
                         {listUsers.map((user, index) => {
                             return (
-                                <div key={user.id} className={+user.age >= 21 ? 'green' : 'red'}>
-                                    <div>My name is {user.name}</div>
-                                    <div>My age is {user.age}</div>
-                                    <div>I am studying in {user.major}</div>
-                                    <hr />
-                                </div>
+                                <>
+                                    <div key={user.id} className={+user.age >= 21 ? 'green' : 'red'}>
+                                        <div>My name is {user.name}</div>
+                                        <div>My age is {user.age}</div>
+                                        <div>I am studying in {user.major}</div>
+                                        <button
+                                            onClick={() => {
+                                                this.props.handleDeleteUser(user.id);
+                                            }}
+                                        >
+                                            Delete
+                                        </button>
+                                        <hr />
+                                    </div>
+                                </>
                             );
                         })}
                     </>

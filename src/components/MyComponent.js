@@ -16,13 +16,20 @@ class MyComponent extends React.Component {
             listUsers: [userObj, ...this.state.listUsers],
         });
     };
+    handleDeleteUser = (userId) => {
+        let listUsersClone = [...this.state.listUsers];
+        listUsersClone = listUsersClone.filter((item) => item.id !== userId);
+        this.setState({
+            listUsers: [...listUsersClone],
+        });
+    };
     //JSX: cho phép viết js bên trong code html
     render() {
         return (
             <div>
                 <AddUserInfor handleAddNewUser={this.handleAddNewUser}></AddUserInfor>
                 <br />
-                <DisplayInfo listUsers={this.state.listUsers}></DisplayInfo>
+                <DisplayInfo listUsers={this.state.listUsers} handleDeleteUser={this.handleDeleteUser}></DisplayInfo>
             </div>
         );
     }
