@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './DisplayInfo.scss';
 import logo from './../logo.svg';
 
@@ -45,6 +45,14 @@ const DisplayInfo = (props) => {
         // alert('click me');
         setShowHideListUser(!isShowHideListUser);
     };
+
+    console.log('>>> Render');
+    useEffect(() => {
+        if (listUsers.length === 0) {
+            alert('me');
+        }
+        console.log('>>>Use effect');
+    }, [listUsers]);
 
     return (
         <div className="display-info-container">
