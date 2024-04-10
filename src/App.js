@@ -1,4 +1,5 @@
 import './App.scss';
+import SideBar from './components/Admin/SideBar';
 import Header from './components/Header/Header';
 import { Outlet } from 'react-router-dom';
 

@@ -1,3 +1,6 @@
+:root {
+  --primary-color: #008ebd;
+}
 body {
   padding: 0;
   margin: 0;
@@ -7,13 +10,52 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .app-container {
+  height: 10000px;
   .header-container {
-    .navbar-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    box-shadow: 0 -6px 10px 5px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    .navbar {
+      padding: 14px 0px;
+
       .nav-link {
         &.active {
-          color: #00bfff;
+          color: var(--primary-color);
         }
       }
+      .btn-login,
+      .btn-signup {
+        height: 40px;
+        line-height: 36px;
+        min-width: 84px;
+        background: transparent;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      .btn-login {
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        margin-right: 15px;
+      }
+      .btn-signup {
+        background-color: var(--primary-color);
+        color: white;
+      }
+    }
+  }
+  .main-container {
+    margin-top: 70px;
+  }
+  .homepage-container {
+    .video-wrapper {
+      width: calc(50% - 1px);
+      width: calc(50% - 1px);
+      overflow: hidden;
     }
   }
 }
