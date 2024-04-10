@@ -4,7 +4,7 @@ const User = (props) => {
         <div>
             User components{' '}
             <button>
-                <Link to="/" class="list">
+                <Link to="/" className="list">
                     Go home page
                 </Link>
             </button>
