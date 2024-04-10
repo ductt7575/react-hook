@@ -1,9 +1,9 @@
 import 'react-pro-sidebar/dist/css/styles.css';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarFooter, SidebarContent } from 'react-pro-sidebar';
-
 import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart, FaReact } from 'react-icons/fa';
 import sidebarBg from '../../assets/bg-sidebar.jpg';
 import './SideBar.scss';
+import { Link } from 'react-router-dom';
 
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props;
@@ -37,13 +37,21 @@ const SideBar = (props) => {
 
         <SidebarContent>
           <Menu iconShape="circle">
-            <MenuItem icon={<FaTachometerAlt />}>Dashboard</MenuItem>
+            <MenuItem icon={<FaTachometerAlt />}>
+              Dashboard <Link to="/admin/" />
+            </MenuItem>
           </Menu>
           <Menu iconShape="circle">
             <SubMenu icon={<FaList />} title={'Features'}>
-              <MenuItem>User Management</MenuItem>
-              <MenuItem>Quiz Management</MenuItem>
-              <MenuItem>Question Management</MenuItem>
+              <MenuItem>
+                Manage User <Link to="/admin/manage-user" />
+              </MenuItem>
+              <MenuItem>
+                Manage Quiz <Link to="/admin/manage-quiz" />
+              </MenuItem>
+              <MenuItem>
+                Manage Question <Link to="/admin/manage-question" />
+              </MenuItem>
             </SubMenu>
           </Menu>
         </SidebarContent>
