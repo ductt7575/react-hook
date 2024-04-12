@@ -13,6 +13,7 @@ import Dashboard from './components/Admin/Content/DashBoard';
 import ManageUser from './components/Admin/Content/ManageUser';
 import ManageQuiz from './components/Admin/Content/ManageQuiz';
 import ManageQuestion from './components/Admin/Content/ManageQuestion';
+import Login from './components/Auth/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -30,6 +31,8 @@ root.render(
           <Route path="manage-quiz" element={<ManageQuiz />} />
           <Route path="manage-question" element={<ManageQuestion />} />
         </Route>
+
+        <Route path="/login" element={<Login />}></Route>
       </Routes>
     </BrowserRouter>
     {/* </React.StrictMode> */}
