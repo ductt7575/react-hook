@@ -1,26 +1,45 @@
 import { useState } from 'react';
 import './Login.scss';
 import { Link } from 'react-router-dom';
+import { postLogin } from '../../services/apiService';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    alert('Login');
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    //Validate
+    // Submit apis
+    let data = await postLogin(email, password);
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      navigate('/');
+    }
+
+    if (data && +data.EC !== 0) {
+      toast.error(data.EM);
+    }
   };
 
   return (
     <div className="login-container">
-      <div className="header text d-flex align-items-center justify-content-end me-4 gap-2 mt-4">
+      <div className="header text d-flex align-items-center justify-content-end mx-4 gap-2 mt-4">
+        <Link to="/" className="m-0 me-auto text-primary text-decoration-none">
+          {`<`} Back home
+        </Link>
         <p className="m-0">Don't have an account yet?</p>
         <Link to={'/signup'} className="btn border-dark">
           Sign up
         </Link>
-        <a target="_blank" href="https://www.google.com/" className="text-dark">
+        <a target="_blank" href="https://www.google.com/" className="text-dark d-inline-block ms-2">
           Contact Us
         </a>
       </div>
-      <div className="login-body col-3 mx-auto mt-5">
+      <div className="login-body col-3 mx-auto mt-5 pt-3">
         <div className="title text-center">
           <Link to="/" className="brand">
             Trong Duc's Application
@@ -52,7 +71,7 @@ const Login = (props) => {
             Forgot password?
           </Link>
           <div className="form-group mt-4">
-            <button className="btn btn-primary col-12" onClick={() => handleLogin()}>
+            <button className="btn btn-dark col-12" onClick={() => handleLogin()}>
               Login
             </button>
           </div>
