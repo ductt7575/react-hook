@@ -5,10 +5,12 @@ import { postLogin } from '../../services/apiService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch('');
 
   const [showPass, setShowPass] = useState(false);
   const clickHandler = () => {
@@ -40,6 +42,10 @@ const Login = (props) => {
     // Submit apis
     let data = await postLogin(email, password);
     if (data && data.EC === 0) {
+      dispatch({
+        type: 'FETCH_USER_LOGIN_SUCCESS',
+        payload: data,
+      });
       toast.success(data.EM);
       navigate('/');
     }
