@@ -13,6 +13,7 @@ import ManageUser from './components/Admin/Content/ManageUser';
 import ManageQuiz from './components/Admin/Content/ManageQuiz';
 import ManageQuestion from './components/Admin/Content/ManageQuestion';
 import Login from './components/Auth/Login';
+import Signup from './components/Auth/Signup';
 
 const Layout = () => {
   return (
@@ -31,6 +32,7 @@ const Layout = () => {
         </Route>
 
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
       </Routes>
       <ToastContainer
         position="top-right"

@@ -30,8 +30,10 @@ const SideBar = (props) => {
             }}
             className=""
           >
-            <FaReact size={'2.8em'} color={'00bfff'} style={{ margin: '-3px 8px 0px 0px' }} />
-            <span>Trong Duc</span>
+            <Link to={`/`} className="text-decoration-none">
+              <FaReact size={'2.8em'} color={'00bfff'} style={{ margin: '-3px 8px 0px 0px' }} />
+              <span className="text-light d-inline-block mt-1 ms-2 fs-6">Trong Duc</span>
+            </Link>
           </div>
         </SidebarHeader>
 

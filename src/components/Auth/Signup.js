@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import './Login.scss';
 import { Link } from 'react-router-dom';
-import { postLogin } from '../../services/apiService';
+import { postSignup } from '../../services/apiService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-const Login = (props) => {
+const Signup = (props) => {
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const [showPass, setShowPass] = useState(false);
@@ -24,24 +25,34 @@ const Login = (props) => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
+  const validatePassword = (password) => {
+    return (
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      /[^A-Za-z0-9]/.test(password) &&
+      password.length > 5
+    );
+  };
 
-  const handleLogin = async (event) => {
+  const handleSignup = async (event) => {
     event.preventDefault();
     // validate
     const isValidEmail = validateEmail(email);
+    const isValidPassword = validatePassword(password);
     if (!isValidEmail) {
       toast.error('Invalid email');
       return;
     }
-    if (!password) {
+    if (!isValidPassword) {
       toast.error('Invalid password');
       return;
     }
     // Submit apis
-    let data = await postLogin(email, password);
+    let data = await postSignup(email, username, password);
     if (data && data.EC === 0) {
       toast.success(data.EM);
-      navigate('/');
+      navigate('/login');
     }
 
     if (data && +data.EC !== 0) {
@@ -50,30 +61,32 @@ const Login = (props) => {
   };
 
   return (
-    <div className="login-container">
+    <div className="signup-container">
       <div className="header text d-flex align-items-center justify-content-end mx-4 gap-2 mt-4">
         <Link to="/" className="m-0 me-auto text-primary text-decoration-none">
           {`<`} Back home
         </Link>
-        <p className="m-0">Don't have an account yet?</p>
-        <Link to={'/signup'} className="btn border-dark">
-          Sign up
+        <p className="m-0">Already have an account?</p>
+        <Link to={'/login'} className="btn border-dark">
+          Log in
         </Link>
         <a target="_blank" href="https://www.google.com/" className="text-dark d-inline-block ms-2">
           Contact Us
         </a>
       </div>
-      <div className="login-body col-4 mx-auto mt-4 pt-3">
-        <div className="text-center">
+      <div className="signup-body col-4 mx-auto mt-4 pt-3">
+        <p className="text-center fs-5 mb-0">Welcome to...</p>
+        <div className="text-center mb-4 mt-3">
           <Link to="/" className="text-decoration-none fs-2 fw-bold text-dark">
             Trong Duc's Application
           </Link>
         </div>
-        <p className="text-center mt-3 fs-5 py-2"> Hello, who’s this?</p>
         <div className="content-form">
-          <form onSubmit={(event) => handleLogin(event)}>
+          <form onSubmit={(event) => handleSignup(event)}>
             <div className="form-group mt-3">
-              <label className="fw-bolder">Email</label>
+              <label className="fw-bolder">
+                Email <span className="fw-normal text-danger">(*)</span>
+              </label>
               <input
                 value={email}
                 type="email"
@@ -83,12 +96,26 @@ const Login = (props) => {
               />
             </div>
             <div className="form-group mt-3">
-              <label className="fw-bolder">Password</label>
+              <label className="fw-bolder">
+                Username <span className="fw-normal text-danger">(Optional)</span>
+              </label>
+              <input
+                value={username}
+                type="text"
+                className="form-control mt-2"
+                placeholder="abc123"
+                onChange={(event) => setUsername(event.target.value)}
+              />
+            </div>
+            <div className="form-group mt-3">
+              <label className="fw-bolder">
+                Password <span className="fw-normal text-danger">(*)</span>
+              </label>
               <div className="input-group position-relative">
                 <input
                   value={password}
                   type={showPass ? 'text' : 'password'}
-                  className="form-control mt-2 z-2"
+                  className="form-control mt-2 rounded z-2"
                   placeholder="At least 6 letters"
                   onChange={(event) => setPassword(event.target.value)}
                 />
@@ -101,11 +128,13 @@ const Login = (props) => {
                 </span>
               </div>
             </div>
-            <Link to={'/forgot-password'} className="mt-2 fs-6 text-end d-block">
-              Forgot password?
-            </Link>
             <div className="form-group mt-4">
-              <button className="btn btn-dark col-12">Login</button>
+              <button
+                className="btn btn-dark col-12 mt-3"
+                // onClick={() => handleSignup()}
+              >
+                Create a free account
+              </button>
             </div>
           </form>
         </div>
@@ -114,4 +143,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default Signup;
