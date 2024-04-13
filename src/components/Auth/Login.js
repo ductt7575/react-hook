@@ -7,11 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { doLogin } from '../../redux/action/userAction';
+import { ImSpinner6 } from 'react-icons/im';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const [showPass, setShowPass] = useState(false);
   const clickHandler = () => {
@@ -40,16 +42,20 @@ const Login = (props) => {
       toast.error('Invalid password');
       return;
     }
+    setIsLoading(true);
+
     // Submit apis
     let data = await postLogin(email, password);
     if (data && data.EC === 0) {
       dispatch(doLogin(data));
       toast.success(data.EM);
+      setIsLoading(false);
       navigate('/');
     }
 
     if (data && +data.EC !== 0) {
       toast.error(data.EM);
+      setIsLoading(false);
     }
   };
 
@@ -109,7 +115,17 @@ const Login = (props) => {
               Forgot password?
             </Link>
             <div className="form-group mt-4">
-              <button className="btn btn-dark col-12">Login</button>
+              <button className="btn btn-dark col-12" disabled={isLoading}>
+                {isLoading ? (
+                  <div class="spinner-border spinner-border-sm me-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                ) : (
+                  ''
+                )}
+
+                <span>Login</span>
+              </button>
             </div>
           </form>
         </div>
