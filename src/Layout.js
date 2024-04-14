@@ -15,6 +15,11 @@ import ManageQuestion from './components/Admin/Content/ManageQuestion';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import ListQuiz from './components/User/ListQuiz';
+import DetailQuiz from './components/User/DetailQuiz';
+
+const NotFound = () => {
+  return <div className="container alert alert-danger mt-4">404. Not Found data with your current URL</div>;
+};
 
 const Layout = () => {
   return (
@@ -24,6 +29,7 @@ const Layout = () => {
           <Route index element={<HomePage />} />
           <Route path="user" element={<ListQuiz />} />
         </Route>
+        <Route path="/quiz/:id" element={<DetailQuiz />} />
 
         <Route path="/admin" element={<Admin />}>
           <Route index element={<Dashboard />} />
@@ -34,6 +40,7 @@ const Layout = () => {
 
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <ToastContainer
         position="top-right"
