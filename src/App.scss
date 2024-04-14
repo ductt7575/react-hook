@@ -15,8 +15,24 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.my-btn {
+  height: 40px;
+  line-height: 36px;
+  min-width: 84px;
+  padding: 0px 18px;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: white;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .app-container {
-  height: 10000px;
   .header-container {
     position: fixed;
     inset: 0 0 auto 0;
@@ -30,22 +46,10 @@ body {
           color: var(--primary-color);
         }
       }
-      .btn-login,
-      .btn-signup {
-        height: 40px;
-        line-height: 36px;
-        min-width: 84px;
-        background: transparent;
-        border: none;
-        outline: none;
-        border-radius: 5px;
-        &:hover {
-          opacity: 0.8;
-        }
-      }
       .btn-login {
         border: 1px solid var(--primary-color);
         color: var(--primary-color);
+        background: transparent;
         margin-right: 15px;
       }
       .btn-signup {
@@ -58,10 +62,20 @@ body {
     margin-top: 70px;
   }
   .homepage-container {
+    display: flex;
+    align-items: center;
     .video-wrapper {
-      width: calc(50% - 1px);
-      width: calc(50% - 1px);
+      width: calc(50% - 5px);
+      width: calc(50% - 5px);
       overflow: hidden;
+    }
+
+    .homepage-content {
+      .btn-start {
+        height: 50px;
+        line-height: 46px;
+        padding: 0 20px;
+      }
     }
   }
 }

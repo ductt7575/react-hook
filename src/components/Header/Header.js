@@ -40,10 +40,10 @@ const Header = () => {
           <Nav>
             {isAuthenticated === false ? (
               <>
-                <button className="btn-login" onClick={() => handleLogin()}>
+                <button className="my-btn btn-login" onClick={() => handleLogin()}>
                   Log in
                 </button>
-                <button className="btn-signup" onClick={() => handleSignup()}>
+                <button className="my-btn btn-signup" onClick={() => handleSignup()}>
                   Sign up
                 </button>
               </>
