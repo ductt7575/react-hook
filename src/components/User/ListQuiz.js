@@ -8,10 +8,10 @@ const ListQuiz = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getQuizDate();
+    getQuizData();
   }, []);
 
-  const getQuizDate = async () => {
+  const getQuizData = async () => {
     const data = await getQuizByUser();
     if (data && data.EC === 0) {
       setArrQuiz(data.DT);
