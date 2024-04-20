@@ -1,17 +1,39 @@
 .detail-quiz-container {
   display: flex;
   column-gap: 20px;
+  padding: 40px 0px 90px;
   .left-content {
     width: 70%;
-    border: 1px solid red;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
     .title {
       font-size: 30px;
       font-weight: 600;
+    }
+    .separate {
+      margin-top: 20px;
+      height: 1px;
+      background-color: #ccc;
+      border-radius: 1px;
     }
     .question-content {
       .question {
         font-size: 20px;
         font-weight: 600;
+      }
+      .question-img {
+        margin: 10px auto 0px;
+        width: 30%;
+        height: 200px;
+        img {
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+      .answer {
+        .a-child {
+        }
       }
     }
     .controls {
@@ -22,6 +44,8 @@
   }
   .right-content {
     width: 30%;
-    border: 1px solid blue;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
   }
 }

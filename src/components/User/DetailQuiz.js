@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { getDataQuiz } from '../../services/apiService';
 import _ from 'lodash';
 import './DetailQuiz.scss';
+import Question from './Question';
 
 const DetailQuiz = (props) => {
   const location = useLocation();
-  const { email } = props;
   const params = useParams();
   const quizId = params.id;
+
+  const [dataQuiz, setDataQuiz] = useState([]);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     fetchQuestions();
@@ -30,12 +33,46 @@ const DetailQuiz = (props) => {
               questionDescription = item.description;
               image = item.image;
             }
+            item.answers.isSelected = false;
             answers.push(item.answers);
           });
           return { questionId: key, answers, questionDescription, image };
         })
         .value();
       console.log(data);
+      setDataQuiz(data);
+    }
+  };
+  console.log('>>> Check data quiz: ', dataQuiz);
+
+  const handlePrev = () => {
+    if (index - 1 < 0) {
+      return;
+    }
+    setIndex(index - 1);
+  };
+  const handleNext = () => {
+    if (dataQuiz && dataQuiz.length > index + 1) {
+      setIndex(index + 1);
+    }
+  };
+
+  const handleCheckBox = (answerId, questionId) => {
+    let dataQuizClone = _.cloneDeep(dataQuiz);
+    let question = dataQuizClone.find((item) => +item.questionId === +questionId);
+    if (question && question.answers) {
+      question.answers = question.answers.map((item) => {
+        if (+item.id === +answerId) {
+          item.isSelected = !item.isSelected;
+        }
+        return item;
+      });
+
+      let index = dataQuizClone.findIndex((item) => +item.questionId === +questionId);
+      if (index > -1) {
+        dataQuizClone[index] = question;
+        setDataQuiz(dataQuizClone);
+      }
     }
   };
 
@@ -45,18 +82,24 @@ const DetailQuiz = (props) => {
         <h3 className="title">
           Quiz {quizId}: {location?.state?.quizTitle}
         </h3>
-        <img className="question-img" src="" />
+        <div className="separate"></div>
         <div className="question-content">
-          <div className="question">Question 1: What is your name?</div>
-          <div className="answer mt-3">
-            <p className="a-child">A. ádasdasd</p>
-            <p className="a-child">B. ádasdasd</p>
-            <p className="a-child">C. ádasdasd</p>
-          </div>
+          <Question
+            handleCheckBox={handleCheckBox}
+            index={index}
+            data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
+          />
         </div>
-        <div className="controls">
-          <button className="btn btn-primary">Prev</button>
-          <button className="btn btn-primary">Next</button>
+        <div className="controls mt-4">
+          <button className="btn btn-secondary" onClick={() => handlePrev()}>
+            Prev
+          </button>
+          <button className="btn btn-primary" onClick={() => handleNext()}>
+            Next
+          </button>
+          <button className="btn btn-warning" onClick={() => handleNext()}>
+            Finish
+          </button>
         </div>
       </div>
       <div className="right-content">Countdown</div>
