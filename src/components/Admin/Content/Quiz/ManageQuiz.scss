@@ -8,4 +8,32 @@
   legend {
     font-size: 16px;
   }
+  .label-upload {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+
+    border-radius: 5px;
+    padding: 3px 11px;
+    width: fit-content;
+    cursor: pointer;
+    background: #e7e7e7;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+  .img-preview {
+    border: 1px dashed #ccc;
+    height: 250px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ccc;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
 }
