@@ -3,8 +3,10 @@ import './ManageQuiz.scss';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { postCreateNewQuiz } from '../../../../services/apiService';
-import { FcPlus } from 'react-icons/fc';
-
+import TableQuiz from './TableQuiz';
+import Accordion from 'react-bootstrap/Accordion';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { BsList } from 'react-icons/bs';
 const options = [
   { value: 'EASY', label: 'EASY' },
   { value: 'MEDIUM', label: 'MEDIUM' },
@@ -47,55 +49,83 @@ const ManageQuiz = (props) => {
 
   return (
     <div className="quiz-container">
-      <div className="title">Manage Quiz</div>
-      <hr />
-      <div className="add-new">
-        <fieldset className="border rounded-3 p-3 mt-4">
-          <legend className="float-none w-auto px-3">Add new quiz</legend>
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder=""
-              value={name}
-              onChange={(event) => setName(event.target.value)}
+      <div className="title mb-3">Manage Quizzes</div>
+      <Accordion>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>
+            <AiOutlinePlus
+              style={{
+                marginRight: '8px',
+              }}
             />
-            <label>
-              Name <span className="text-danger">(*)</span>
-            </label>
-          </div>
-          <div className="form-floating mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder=""
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-            />
-            <label>
-              Description <span className="text-danger">(*)</span>
-            </label>
-          </div>
-          <div className="mb-3">
-            <Select defaultValue={type} onChange={setType} options={options} placeholder={'choose difficulty'} />
-          </div>
-          <div className="col-md-12  mb-3">
-            <label className="form-label label-upload " htmlFor="label-upload">
-              <FcPlus /> Upload File Image
-            </label>
-            <input type="file" id="label-upload" hidden onChange={(event) => handleChangeFile(event)} />
-          </div>
-          <div className="col-md-12 img-preview">
-            {previewImage ? <img src={previewImage} /> : <span>Preview Image</span>}
-          </div>
-          <div>
-            <button className="btn btn-warning mt-4" onClick={(event) => handleSubmitQuiz(event)}>
-              Save
-            </button>
-          </div>
-        </fieldset>
+            Add New Quiz
+          </Accordion.Header>
+          <Accordion.Body>
+            <div className="add-new">
+              {/* <fieldset className="border rounded-3 p-3">
+                <legend className="float-none w-auto px-3">Add new quiz</legend> */}
+              <div className="form-floating mb-3">
+                <input
+                  type="text"
+                  className="form-control col-md-6"
+                  placeholder=""
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                />
+                <label>
+                  Name <span className="text-danger">(*)</span>
+                </label>
+              </div>
+              <div className="form-floating mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder=""
+                  value={description}
+                  onChange={(event) => setDescription(event.target.value)}
+                />
+                <label>
+                  Description <span className="text-danger">(*)</span>
+                </label>
+              </div>
+              <div className="mb-3">
+                <Select defaultValue={type} onChange={setType} options={options} placeholder={'choose difficulty'} />
+              </div>
+              <div className="col-md-12  mb-3">
+                <input type="file" id="label-upload" hidden onChange={(event) => handleChangeFile(event)} />
+              </div>
+              <div className="col-md-12 img-preview">
+                <label className="form-label label-upload " htmlFor="label-upload">
+                  {previewImage ? <img src={previewImage} /> : <span>Choose Image</span>}
+                </label>
+              </div>
+              <div>
+                <button className="btn btn-warning mt-4" onClick={(event) => handleSubmitQuiz(event)}>
+                  Add
+                </button>
+              </div>
+              {/* </fieldset> */}
+            </div>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+      <div className="list-detail">
+        <Accordion defaultActiveKey="0">
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>
+              <BsList
+                style={{
+                  marginRight: '8px',
+                }}
+              />
+              List Quiz
+            </Accordion.Header>
+            <Accordion.Body>
+              <TableQuiz />
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </div>
-      <div className="list-detail">table</div>
     </div>
   );
 };
