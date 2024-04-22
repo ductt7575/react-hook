@@ -11,11 +11,11 @@ import HomePage from './components/Home/HomePage';
 import Dashboard from './components/Admin/Content/DashBoard';
 import ManageUser from './components/Admin/Content/ManageUser';
 import ManageQuiz from './components/Admin/Content/Quiz/ManageQuiz';
-import ManageQuestion from './components/Admin/Content/ManageQuestion';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import ListQuiz from './components/User/ListQuiz';
 import DetailQuiz from './components/User/DetailQuiz';
+import Questions from './components/Admin/Content/Question/Questions';
 
 const NotFound = () => {
   return <div className="container alert alert-danger mt-4">404. Not Found data with your current URL</div>;
@@ -35,7 +35,7 @@ const Layout = () => {
           <Route index element={<Dashboard />} />
           <Route path="manage-user" element={<ManageUser />} />
           <Route path="manage-quiz" element={<ManageQuiz />} />
-          <Route path="manage-question" element={<ManageQuestion />} />
+          <Route path="manage-question" element={<Questions />} />
         </Route>
 
         <Route path="/login" element={<Login />}></Route>
