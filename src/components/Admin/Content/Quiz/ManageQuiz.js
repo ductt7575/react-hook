@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './ManageQuiz.scss';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
-import { postCreateNewQuiz } from '../../../../services/apiService';
+import { getAllQuizForAdmin, postCreateNewQuiz } from '../../../../services/apiService';
 import TableQuiz from './TableQuiz';
 import Accordion from 'react-bootstrap/Accordion';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { BsList } from 'react-icons/bs';
+
 const options = [
   { value: 'EASY', label: 'EASY' },
   { value: 'MEDIUM', label: 'MEDIUM' },
@@ -14,6 +15,7 @@ const options = [
 ];
 
 const ManageQuiz = (props) => {
+  const [listQuiz, setListQuiz] = useState([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState('');
@@ -41,9 +43,22 @@ const ManageQuiz = (props) => {
       setDescription('');
       setType('');
       setImage(null);
+      fetchQuiz();
     }
     if (res && res.EC !== 0) {
       toast.error(res.EM);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+
+  const fetchQuiz = async () => {
+    let res = await getAllQuizForAdmin();
+    console.log('>>> res: ', res);
+    if (res && res.EC === 0) {
+      setListQuiz(res.DT);
     }
   };
 
@@ -121,7 +136,7 @@ const ManageQuiz = (props) => {
               List Quiz
             </Accordion.Header>
             <Accordion.Body>
-              <TableQuiz />
+              <TableQuiz fetchQuiz={fetchQuiz} listQuiz={listQuiz} options={options} />
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>

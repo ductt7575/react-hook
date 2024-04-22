@@ -1,19 +1,30 @@
-import { useState, useEffect } from 'react';
-import { getAllQuizForAdmin } from '../../../../services/apiService';
+import { useState } from 'react';
+import ModalDeleteQuiz from './ModalDeleteQuiz';
+import ModalUpdateQuiz from './ModalUpdateQuiz';
 
 const TableQuiz = (props) => {
-  const [listQuiz, setListQuiz] = useState([]);
+  const { listQuiz, fetchQuiz, options } = props;
+  const [showHideUpdateQuiz, setShowHideUpdateQuiz] = useState(false);
+  const [showHideDeleteQuiz, setShowHideDeleteQuiz] = useState(false);
 
-  useEffect(() => {
-    fetchQuiz();
-  }, []);
-  const fetchQuiz = async () => {
-    let res = await getAllQuizForAdmin();
-    console.log('>>> res: ', res);
-    if (res && res.EC === 0) {
-      setListQuiz(res.DT);
-    }
+  const [dataUpdateQuiz, setDataUpdateQuiz] = useState({});
+  const [dataDeleteQuiz, setDataDeleteQuiz] = useState({});
+  console.log(listQuiz);
+
+  const handleClickBtnUpdate = (quiz) => {
+    setShowHideUpdateQuiz(true);
+    setDataUpdateQuiz(quiz);
   };
+
+  const resetUpdateDataQuiz = () => {
+    setDataUpdateQuiz({});
+  };
+
+  const handleClickBtnDelete = (quiz) => {
+    setShowHideDeleteQuiz(true);
+    setDataDeleteQuiz(quiz);
+  };
+
   return (
     <>
       <table className="table table-hover table-bordered mt-2 mb-0">
@@ -34,24 +45,12 @@ const TableQuiz = (props) => {
                   <td>{quiz.id}</td>
                   <td>{quiz.name}</td>
                   <td>{quiz.description}</td>
-                  <td>{quiz.difficulty}</td>
+                  <td>{quiz.difficulty === 'undefined' ? 'Not selected' : quiz.difficulty}</td>
                   <td>
-                    <button
-                      className="btn btn-secondary"
-                      //  onClick={() => props.handleClickBtnView(user)}
-                    >
-                      Detail
-                    </button>
-                    <button
-                      className="btn btn-warning mx-3"
-                      // onClick={() => props.handleClickBtnUpdate(user)}
-                    >
+                    <button className="btn btn-warning me-3" onClick={() => handleClickBtnUpdate(quiz)}>
                       Edit
                     </button>
-                    <button
-                      className="btn btn-danger"
-                      // onClick={() => props.handleClickBtnDelete(user)}
-                    >
+                    <button className="btn btn-danger" onClick={() => handleClickBtnDelete(quiz)}>
                       Delete
                     </button>
                   </td>
@@ -60,6 +59,21 @@ const TableQuiz = (props) => {
             })}
         </tbody>
       </table>
+      <ModalUpdateQuiz
+        show={showHideUpdateQuiz}
+        setShow={setShowHideUpdateQuiz}
+        dataUpdateQuiz={dataUpdateQuiz}
+        fetchQuiz={fetchQuiz}
+        options={options}
+        resetUpdateDataQuiz={resetUpdateDataQuiz}
+      />
+
+      <ModalDeleteQuiz
+        show={showHideDeleteQuiz}
+        setShow={setShowHideDeleteQuiz}
+        dataDeleteQuiz={dataDeleteQuiz}
+        fetchQuiz={fetchQuiz}
+      />
     </>
   );
 };
