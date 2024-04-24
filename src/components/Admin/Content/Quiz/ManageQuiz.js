@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
+import Select from 'react-select';
 import './ManageQuiz.scss';
 import { toast } from 'react-toastify';
-import Select from 'react-select';
 import { getAllQuizForAdmin, postCreateNewQuiz } from '../../../../services/apiService';
 import TableQuiz from './TableQuiz';
 import Accordion from 'react-bootstrap/Accordion';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { BsList } from 'react-icons/bs';
+import { MdUpdate, MdOutlineAssignmentTurnedIn } from 'react-icons/md';
+import QuizQA from './QuizQA';
+import AssignQuiz from './AssignQuiz';
 
 const options = [
   { value: 'EASY', label: 'EASY' },
@@ -135,6 +138,32 @@ const ManageQuiz = (props) => {
             </Accordion.Header>
             <Accordion.Body>
               <TableQuiz fetchQuiz={fetchQuiz} listQuiz={listQuiz} options={options} />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>
+              <MdUpdate
+                style={{
+                  marginRight: '8px',
+                }}
+              />
+              Update Q/A Quizzes
+            </Accordion.Header>
+            <Accordion.Body>
+              <QuizQA />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header>
+              <MdOutlineAssignmentTurnedIn
+                style={{
+                  marginRight: '8px',
+                }}
+              />
+              Assign to Users
+            </Accordion.Header>
+            <Accordion.Body>
+              <AssignQuiz />
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
