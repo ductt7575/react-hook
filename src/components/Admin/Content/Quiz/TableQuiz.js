@@ -9,7 +9,6 @@ const TableQuiz = (props) => {
 
   const [dataUpdateQuiz, setDataUpdateQuiz] = useState({});
   const [dataDeleteQuiz, setDataDeleteQuiz] = useState({});
-  console.log(listQuiz);
 
   const handleClickBtnUpdate = (quiz) => {
     setShowHideUpdateQuiz(true);

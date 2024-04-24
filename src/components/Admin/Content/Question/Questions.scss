@@ -14,13 +14,15 @@
         width: 50%;
       }
       .group-upload {
-        label {
-          height: 30px;
-          border: 1px solid red;
-          border-radius: 5px;
-          padding: 0px 10px;
+        .label-up {
           margin-right: 5px;
           cursor: pointer;
+          color: #9068ff;
+          font-size: 25px;
+
+          &:hover {
+            color: #4400ff;
+          }
         }
       }
       .btn-add {
@@ -28,10 +30,15 @@
         .icon-remove {
           font-size: 25px;
           border-radius: 50%;
+          color: #2596ff;
           cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+          }
         }
         .icon-remove {
           margin-left: 15px;
+          color: #e8771c;
         }
       }
     }
@@ -51,10 +58,15 @@
         .icon-remove {
           font-size: 25px;
           border-radius: 50%;
+          color: #2596ff;
           cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+          }
         }
         .icon-remove {
           margin-left: 15px;
+          color: #e8771c;
         }
       }
     }

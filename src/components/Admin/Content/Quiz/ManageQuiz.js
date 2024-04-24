@@ -36,7 +36,6 @@ const ManageQuiz = (props) => {
       return;
     }
     let res = await postCreateNewQuiz(description, name, type?.value, image);
-    console.log(res);
     if (res && res.EC === 0) {
       toast.success(res.EM);
       setName('');
@@ -56,7 +55,6 @@ const ManageQuiz = (props) => {
 
   const fetchQuiz = async () => {
     let res = await getAllQuizForAdmin();
-    console.log('>>> res: ', res);
     if (res && res.EC === 0) {
       setListQuiz(res.DT);
     }
