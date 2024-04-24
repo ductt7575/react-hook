@@ -12,9 +12,11 @@ import {
   postCreateNewQuestionForQuiz,
   postCreateNewAnswerForQuestion,
 } from '../../../../services/apiService';
+import { toast } from 'react-toastify';
+import { AlertHeading } from 'react-bootstrap';
 
 const Questions = (props) => {
-  const [questions, setQuestions] = useState([
+  const initQuestions = [
     {
       id: uuidv4(),
       description: '',
@@ -22,7 +24,8 @@ const Questions = (props) => {
       imageName: '',
       answers: [{ id: uuidv4(), description: '', isCorrect: false }],
     },
-  ]);
+  ];
+  const [questions, setQuestions] = useState(initQuestions);
 
   const [isPreviewImage, setIsPreviewImage] = useState('false');
   const [dataImagePreview, setDataImagePreview] = useState({
@@ -135,19 +138,60 @@ const Questions = (props) => {
 
   const handleSubmitQuestionForQuiz = async () => {
     //todo
-    //validate data
+    if (_.isEmpty(selectedQuiz)) {
+      toast.error('Please select a quiz');
+      return;
+    }
 
-    //submit questions
-    await Promise.all(
-      questions.map(async (question) => {
-        const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile);
-        await Promise.all(
-          question.answers.map(async (answer) => {
-            await postCreateNewAnswerForQuestion(answer.description, answer.isCorrect, q.DT.id);
-          }),
-        );
-      }),
-    );
+    //validate question
+    let isValidQuestion = true;
+    let indexQ1 = 0;
+    for (let i = 0; i < questions.length; i++) {
+      if (!questions[i].description) {
+        isValidQuestion = false;
+        indexQ1 = i;
+        break;
+      }
+    }
+
+    if (isValidQuestion === false) {
+      toast.error(`Please enter a description for Question ${indexQ1}`);
+      return;
+    }
+
+    //validate answer
+    let isValidAnswer = true;
+    let indexQuestion = 0,
+      indexAnswer = 0;
+    for (let i = 0; i < questions.length; i++) {
+      for (let j = 0; j < questions[i].answers.length; j++) {
+        if (!questions[i].answers[j].description) {
+          isValidAnswer = false;
+          indexAnswer = j;
+          break;
+        }
+      }
+      if (isValidAnswer === false) {
+        indexQuestion = i;
+        break;
+      }
+    }
+
+    if (isValidAnswer === false) {
+      toast.error(`Please enter Answer ${indexAnswer + 1} at Question ${indexQuestion + 1}`);
+      return;
+    }
+
+    //submit question
+    for (const question of questions) {
+      const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile);
+      //submit answer
+      for (const answer of question.answers) {
+        await postCreateNewAnswerForQuestion(answer.description, answer.isCorrect, q.DT.id);
+      }
+    }
+    toast.success('Create questions and answers successfully');
+    setQuestions(initQuestions);
   };
 
   const handlePreviewImage = (questionId) => {
