@@ -5,7 +5,8 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { AiOutlineMinus } from 'react-icons/ai';
 import { RiImageAddFill } from 'react-icons/ri';
 import { v4 as uuidv4 } from 'uuid';
-import _, { valuesIn } from 'lodash';
+import _ from 'lodash';
+import Lightbox from 'react-awesome-lightbox';
 
 const Questions = (props) => {
   const options = [
@@ -24,6 +25,12 @@ const Questions = (props) => {
       answers: [{ id: uuidv4(), description: '', isCorrect: false }],
     },
   ]);
+
+  const [isPreviewImage, setIsPreviewImage] = useState('false');
+  const [dataImagePreview, setDataImagePreview] = useState({
+    title: '',
+    url: '',
+  });
 
   const handleAddRemoveQuestion = (type, id) => {
     if (type === 'ADD') {
@@ -112,6 +119,18 @@ const Questions = (props) => {
     console.log('questions:', questions);
   };
 
+  const handlePreviewImage = (questionId) => {
+    let questionsClone = _.cloneDeep(questions);
+    let index = questionsClone.findIndex((item) => item.id === questionId);
+    if (index > -1) {
+      setDataImagePreview({
+        url: URL.createObjectURL(questionsClone[index].imageFile),
+        title: questionsClone[index].imageName,
+      });
+      setIsPreviewImage(true);
+    }
+  };
+
   return (
     <div className="questions-container">
       <div className="title">Question Management</div>
@@ -128,7 +147,7 @@ const Questions = (props) => {
             return (
               <div key={question.id} className="q-main mb-4">
                 <div className="question-content">
-                  <div className="form-floating description">
+                  <div className="form-floating description z-0 ">
                     <input
                       type="text"
                       className="form-control"
@@ -148,7 +167,13 @@ const Questions = (props) => {
                       hidden
                       onChange={(event) => handleOnchangeFileQuestion(question.id, event)}
                     />
-                    {question.imageFile ? <span>{question.imageName}</span> : <span>0 file is uploaded</span>}
+                    {question.imageFile ? (
+                      <span style={{ cursor: 'pointer' }} onClick={() => handlePreviewImage(question.id)}>
+                        {question.imageName}
+                      </span>
+                    ) : (
+                      <span>0 file is uploaded</span>
+                    )}
                   </div>
                   <div className="btn-add">
                     <span onClick={() => handleAddRemoveQuestion('ADD', '')}>
@@ -211,6 +236,13 @@ const Questions = (props) => {
               Save question
             </button>
           </div>
+        )}
+        {isPreviewImage === true && (
+          <Lightbox
+            onClose={() => setIsPreviewImage(false)}
+            image={dataImagePreview.url}
+            title={dataImagePreview.title}
+          ></Lightbox>
         )}
       </div>
     </div>
