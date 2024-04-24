@@ -20,7 +20,7 @@ const ListQuiz = (props) => {
 
   return (
     <div className="list-quiz-container">
-      <div className="row">
+      <div className="row gy-4">
         {arrQuiz &&
           arrQuiz.length > 0 &&
           arrQuiz.map((quiz, index) => {
