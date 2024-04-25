@@ -65,10 +65,16 @@
         border: 1px solid #ccc;
         border-radius: 50%;
         color: #444444;
+        user-select: none;
         &:hover {
-          background-color: #0d6efd;
-          color: white;
+          color: rgb(255, 60, 60);
           cursor: pointer;
+        }
+        &.selected {
+          background-color: #cbcbcb;
+        }
+        &.clicked {
+          color: rgb(255, 60, 60);
         }
       }
     }
