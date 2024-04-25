@@ -45,5 +45,32 @@
     border: 2px solid #ccc;
     border-radius: 5px;
     padding: 20px;
+    .main-timer {
+      padding-bottom: 10px;
+      line-height: 45px;
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+    .main-question {
+      .question {
+        margin: 0px auto;
+        margin-top: 10px;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        color: #444444;
+        &:hover {
+          background-color: #0d6efd;
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
