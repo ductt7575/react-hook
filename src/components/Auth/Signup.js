@@ -5,6 +5,7 @@ import { postSignup } from '../../services/apiService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import Languages from '../Header/Languages';
 
 const Signup = (props) => {
   const [email, setEmail] = useState('');
@@ -62,17 +63,15 @@ const Signup = (props) => {
 
   return (
     <div className="signup-container">
-      <div className="header text d-flex align-items-center justify-content-end mx-4 gap-2 mt-4">
+      <div className="header text d-flex align-items-center justify-content-end mx-5 px-5 gap-2 mt-4">
         <Link to="/" className="m-0 me-auto text-primary text-decoration-none">
           {`<`} Back home
         </Link>
         <p className="m-0">Already have an account?</p>
-        <Link to={'/login'} className="btn border-dark">
+        <Link to={'/login'} className="btn border-dark me-3">
           Log in
         </Link>
-        <a target="_blank" href="https://www.google.com/" className="text-dark d-inline-block ms-2">
-          Contact Us
-        </a>
+        <Languages />
       </div>
       <div className="signup-body col-4 mx-auto mt-4 pt-3">
         <p className="text-center fs-5 mb-0">Welcome to...</p>

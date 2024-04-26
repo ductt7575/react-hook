@@ -8,6 +8,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { doLogin } from '../../redux/action/userAction';
 import { ImSpinner6 } from 'react-icons/im';
+import Languages from '../Header/Languages';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
@@ -61,17 +62,15 @@ const Login = (props) => {
 
   return (
     <div className="login-container">
-      <div className="header text d-flex align-items-center justify-content-end mx-4 gap-2 mt-4">
+      <div className="header text d-flex align-items-center justify-content-end mx-5 px-5 gap-2 mt-4">
         <Link to="/" className="m-0 me-auto text-primary text-decoration-none">
           {`<`} Back home
         </Link>
         <p className="m-0">Don't have an account yet?</p>
-        <Link to={'/signup'} className="btn border-dark">
+        <Link to={'/signup'} className="btn border-dark me-3">
           Sign up
         </Link>
-        <a target="_blank" href="https://www.google.com/" className="text-dark d-inline-block ms-2">
-          Contact Us
-        </a>
+        <Languages />
       </div>
       <div className="login-body col-4 mx-auto mt-4 pt-3">
         <div className="text-center">
@@ -83,7 +82,9 @@ const Login = (props) => {
         <div className="content-form">
           <form onSubmit={(event) => handleLogin(event)}>
             <div className="form-group mt-3">
-              <label className="fw-bolder">Email</label>
+              <label className="fw-bolder">
+                Email <span className="fw-normal text-danger">(*)</span>
+              </label>
               <input
                 value={email}
                 type="email"
@@ -93,7 +94,9 @@ const Login = (props) => {
               />
             </div>
             <div className="form-group mt-3">
-              <label className="fw-bolder">Password</label>
+              <label className="fw-bolder">
+                Password <span className="fw-normal text-danger">(*)</span>
+              </label>
               <div className="input-group position-relative">
                 <input
                   value={password}
