@@ -40,6 +40,10 @@ const postSignup = (email, username, password) => {
   return axios.post(`api/v1/register`, { email, username, password });
 };
 
+const logOut = (email, refresh_token) => {
+  return axios.post(`api/v1/logout`, { email, refresh_token });
+};
+
 const getQuizByUser = () => {
   return axios.get(`api/v1/quiz-by-participant`);
 };
@@ -113,6 +117,7 @@ export {
   getUserWithPaginate,
   postLogin,
   postSignup,
+  logOut,
   getQuizByUser,
   getDataQuiz,
   postSubmitQuiz,
