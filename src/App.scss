@@ -20,6 +20,10 @@ body {
   display: none !important;
 }
 
+a {
+  text-decoration: none;
+}
+
 .my-btn {
   height: 40px;
   line-height: 36px;
@@ -60,6 +64,21 @@ body {
         background-color: var(--primary-color);
         color: white;
       }
+    }
+    .navbar-brand {
+      .brand-icon {
+        font-size: 25px;
+        color: #00bfff;
+        animation: spin 5s infinite linear;
+      }
+    }
+  }
+  @keyframes spin {
+    from {
+      transform: scale(1) rotate(0deg);
+    }
+    to {
+      transform: scale(1) rotate(360deg);
     }
   }
   .main-container {

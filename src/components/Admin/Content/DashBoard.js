@@ -2,9 +2,13 @@ import { useState, useEffect } from 'react';
 import './DashBoard.scss';
 import { BarChart, Bar, CartesianGrid, Legend, Tooltip, YAxis, XAxis, ResponsiveContainer } from 'recharts';
 import { getOverviewDashBoard } from '../../../services/apiService';
+import { useTranslation } from 'react-i18next';
+
 const Dashboard = (props) => {
   const [dataOverview, setDataOverview] = useState([]);
   const [dataChart, setDataChart] = useState([]);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchDataOverview();
@@ -43,12 +47,12 @@ const Dashboard = (props) => {
 
   return (
     <div className="dashboard-container">
-      <div className="title">Analytics Dashboard</div>
+      <div className="title">{t('dashboard.heading')}</div>
       <div className="content">
         <div className="c-left row g-3">
           <div className="col-md-6 col-sm-12">
             <div className="child">
-              <p className="child-label">Total Users</p>
+              <p className="child-label">{t('dashboard.totalUsers')}</p>
               <span className="child-stats">
                 {dataOverview && dataOverview.users && dataOverview.users.total ? (
                   <>{dataOverview.users.total}</>
@@ -60,7 +64,7 @@ const Dashboard = (props) => {
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="child">
-              <p className="child-label">Total Quizzes</p>
+              <p className="child-label">{t('dashboard.totalQuizzes')}</p>
               <span className="child-stats">
                 {dataOverview && dataOverview.others && dataOverview.others.countQuiz ? (
                   <>{dataOverview.others.countQuiz}</>
@@ -72,7 +76,7 @@ const Dashboard = (props) => {
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="child">
-              <p className="child-label">Total Questions</p>
+              <p className="child-label">{t('dashboard.totalQuestions')}</p>
               <span className="child-stats">
                 {dataOverview && dataOverview.others && dataOverview.others.countQuestions ? (
                   <>{dataOverview.others.countQuestions}</>
@@ -84,7 +88,7 @@ const Dashboard = (props) => {
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="child">
-              <p className="child-label">Total Answers</p>
+              <p className="child-label">{t('dashboard.totalUsers')}</p>
               <span className="child-stats">
                 {dataOverview && dataOverview.others && dataOverview.others.countAnswers ? (
                   <>{dataOverview.others.countAnswers}</>

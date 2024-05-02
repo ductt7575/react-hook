@@ -10,6 +10,7 @@ import { BsList } from 'react-icons/bs';
 import { MdUpdate, MdOutlineAssignmentTurnedIn } from 'react-icons/md';
 import QuizQA from './QuizQA';
 import AssignQuiz from './AssignQuiz';
+import { useTranslation } from 'react-i18next';
 
 const options = [
   { value: 'EASY', label: 'EASY' },
@@ -24,6 +25,7 @@ const ManageQuiz = (props) => {
   const [type, setType] = useState('');
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
+  const { t } = useTranslation();
 
   const handleChangeFile = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
@@ -65,7 +67,7 @@ const ManageQuiz = (props) => {
 
   return (
     <div className="quiz-container">
-      <div className="title mb-3">Manage Quizzes</div>
+      <div className="title mb-3">{t('manageQuiz.heading')}</div>
       <Accordion>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
@@ -74,7 +76,7 @@ const ManageQuiz = (props) => {
                 marginRight: '8px',
               }}
             />
-            Add New Quiz
+            {t('manageQuiz.createNew.heading')}
           </Accordion.Header>
           <Accordion.Body>
             <div className="add-new">
@@ -89,7 +91,7 @@ const ManageQuiz = (props) => {
                   onChange={(event) => setName(event.target.value)}
                 />
                 <label>
-                  Name <span className="text-danger">(*)</span>
+                  {t('manageQuiz.name')} <span className="text-danger">(*)</span>
                 </label>
               </div>
               <div className="form-floating mb-3">
@@ -101,23 +103,28 @@ const ManageQuiz = (props) => {
                   onChange={(event) => setDescription(event.target.value)}
                 />
                 <label>
-                  Description <span className="text-danger">(*)</span>
+                  {t('manageQuiz.description')} <span className="text-danger">(*)</span>
                 </label>
               </div>
               <div className="mb-3">
-                <Select defaultValue={type} onChange={setType} options={options} placeholder={'choose difficulty'} />
+                <Select
+                  defaultValue={type}
+                  onChange={setType}
+                  options={options}
+                  placeholder={t('manageQuiz.difficulty')}
+                />
               </div>
               <div className="col-md-12  mb-3">
                 <input type="file" id="label-upload" hidden onChange={(event) => handleChangeFile(event)} />
               </div>
               <div className="col-md-12 img-preview">
                 <label className="form-label label-upload " htmlFor="label-upload">
-                  {previewImage ? <img src={previewImage} /> : <span>Choose Image</span>}
+                  {previewImage ? <img src={previewImage} /> : <span>{t('manageQuiz.createNew.chooseImage')}</span>}
                 </label>
               </div>
               <div>
                 <button className="btn btn-warning mt-4" onClick={(event) => handleSubmitQuiz(event)}>
-                  Add
+                  {t('manageQuiz.createNew.btnAdd')}
                 </button>
               </div>
               {/* </fieldset> */}
@@ -134,7 +141,7 @@ const ManageQuiz = (props) => {
                   marginRight: '8px',
                 }}
               />
-              List Quiz
+              {t('manageQuiz.listQuiz.heading')}
             </Accordion.Header>
             <Accordion.Body>
               <TableQuiz fetchQuiz={fetchQuiz} listQuiz={listQuiz} options={options} />
@@ -147,7 +154,7 @@ const ManageQuiz = (props) => {
                   marginRight: '8px',
                 }}
               />
-              Update Q/A Quizzes
+              {t('manageQuiz.update.heading')}
             </Accordion.Header>
             <Accordion.Body>
               <QuizQA />
@@ -160,7 +167,7 @@ const ManageQuiz = (props) => {
                   marginRight: '8px',
                 }}
               />
-              Assign to Users
+              {t('manageQuiz.assign.heading')}
             </Accordion.Header>
             <Accordion.Body>
               <AssignQuiz />

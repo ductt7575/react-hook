@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ModalDeleteQuiz from './ModalDeleteQuiz';
 import ModalUpdateQuiz from './ModalUpdateQuiz';
+import { useTranslation } from 'react-i18next';
 
 const TableQuiz = (props) => {
   const { listQuiz, fetchQuiz, options } = props;
@@ -9,6 +10,8 @@ const TableQuiz = (props) => {
 
   const [dataUpdateQuiz, setDataUpdateQuiz] = useState({});
   const [dataDeleteQuiz, setDataDeleteQuiz] = useState({});
+
+  const { t } = useTranslation();
 
   const handleClickBtnUpdate = (quiz) => {
     setShowHideUpdateQuiz(true);
@@ -30,10 +33,10 @@ const TableQuiz = (props) => {
         <thead>
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Difficulty</th>
-            <th scope="col">Actions</th>
+            <th scope="col">{t('manageQuiz.name')}</th>
+            <th scope="col">{t('manageQuiz.description')}</th>
+            <th scope="col">{t('manageQuiz.difficulty')}</th>
+            <th scope="col">{t('manageQuiz.listQuiz.actions')}</th>
           </tr>
         </thead>
         <tbody>
@@ -47,10 +50,10 @@ const TableQuiz = (props) => {
                   <td>{quiz.difficulty === 'undefined' ? 'Not selected' : quiz.difficulty}</td>
                   <td>
                     <button className="btn btn-warning me-3" onClick={() => handleClickBtnUpdate(quiz)}>
-                      Edit
+                      {t('manageQuiz.listQuiz.edit')}
                     </button>
                     <button className="btn btn-danger" onClick={() => handleClickBtnDelete(quiz)}>
-                      Delete
+                      {t('manageQuiz.listQuiz.delete')}
                     </button>
                   </td>
                 </tr>

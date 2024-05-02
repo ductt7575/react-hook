@@ -5,9 +5,11 @@ import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import { putUpdateUser } from '../../../services/apiService';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const ModalUpdateUser = (props) => {
   const { show, setShow, dataUpdate, resetUpdateData, currentPage } = props;
+  const { t } = useTranslation();
 
   const handleClose = () => {
     setShow(false);
@@ -52,21 +54,22 @@ const ModalUpdateUser = (props) => {
     //call apis
     let data = await putUpdateUser(dataUpdate.id, username, role, image);
     if (data && data.EC === 0) {
+      await props.fetchListUsersWithPaginate(currentPage);
       toast.success(data.EM);
       handleClose();
-      await props.fetchListUsersWithPaginate(currentPage);
     }
 
     if (data && data.EC !== 0) {
       toast.error(data.EM);
     }
   };
+  console.log(currentPage);
 
   return (
     <>
       <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className="modal-add-user">
         <Modal.Header closeButton>
-          <Modal.Title>Update a user</Modal.Title>
+          <Modal.Title>{t('manageUser.update.heading')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
@@ -81,7 +84,7 @@ const ModalUpdateUser = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Password</label>
+              <label className="form-label">{t('password')}</label>
               <input
                 type="password"
                 className="form-control"
@@ -91,7 +94,7 @@ const ModalUpdateUser = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Username</label>
+              <label className="form-label">{t('username')}</label>
               <input
                 type="text"
                 className="form-control"
@@ -100,7 +103,7 @@ const ModalUpdateUser = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Role</label>
+              <label className="form-label">{t('role')}</label>
               <select className="form-select" value={role} onChange={(event) => setRole(event.target.value)}>
                 <option value="USER">USER</option>
                 <option value="ADMIN">ADMIN</option>
@@ -109,22 +112,22 @@ const ModalUpdateUser = (props) => {
 
             <div className="col-md-12">
               <label className="form-label label-upload" htmlFor="label-upload">
-                <FcPlus /> Upload File Image
+                <FcPlus /> {t('manageUser.update.uploadImage')}
               </label>
               <input type="file" id="label-upload" hidden onChange={(event) => handleUploadImage(event)} />
             </div>
 
             <div className="col-md-12 img-preview">
-              {previewImage ? <img src={previewImage} /> : <span>Preview Image</span>}
+              {previewImage ? <img src={previewImage} /> : <span>{t('previewImage')}</span>}
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t('close')}
           </Button>
           <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
-            Save
+            {t('save')}
           </Button>
         </Modal.Footer>
       </Modal>

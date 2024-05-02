@@ -3,10 +3,11 @@ import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
 import Modal from 'react-bootstrap/Modal';
 import { deleteUser } from '../../../services/apiService';
+import { useTranslation } from 'react-i18next';
 
 const ModalDeleteUser = (props) => {
   const { show, setShow, dataDelete, currentPage } = props;
-
+  const { t } = useTranslation();
   const handleClose = () => setShow(false);
 
   const handleSubmitDeleteUser = async () => {
@@ -24,9 +25,9 @@ const ModalDeleteUser = (props) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} size="lg" backdrop="static" className="modal-delete-user">
+      <Modal show={show} onHide={handleClose} size="md" backdrop="static" className="modal-delete-user">
         <Modal.Header closeButton>
-          <Modal.Title>Are you sure want to delete this user?</Modal.Title>
+          <Modal.Title>{t('manageUser.delete.heading')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {dataDelete && dataDelete.email ? (
@@ -35,12 +36,12 @@ const ModalDeleteUser = (props) => {
                 <b>Email:</b> {dataDelete.email}
               </p>
               <p>
-                <b>Username:</b> {dataDelete.username}
+                <b>{t('username')}:</b> {dataDelete.username}
               </p>
               <p>
-                <b>Role:</b> {dataDelete.role}
+                <b>{t('role')}:</b> {dataDelete.role}
               </p>
-              <p className="modal-delete-user__warning">*Warning: By deleting this user you can't undo this action!</p>
+              <p className="modal-delete-user__warning">{t('manageUser.delete.warning')}</p>
             </>
           ) : (
             ''
@@ -48,10 +49,10 @@ const ModalDeleteUser = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            {t('cancel')}
           </Button>
           <Button variant="danger" onClick={() => handleSubmitDeleteUser()}>
-            Confirm
+            {t('confirm')}
           </Button>
         </Modal.Footer>
       </Modal>

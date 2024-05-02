@@ -13,7 +13,7 @@ import {
   postCreateNewAnswerForQuestion,
 } from '../../../../services/apiService';
 import { toast } from 'react-toastify';
-import { AlertHeading } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 const Questions = (props) => {
   const initQuestions = [
@@ -35,6 +35,8 @@ const Questions = (props) => {
 
   const [listQuiz, setListQuiz] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState({});
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchQuiz();
@@ -208,14 +210,14 @@ const Questions = (props) => {
 
   return (
     <div className="questions-container">
-      <div className="title">Question Management</div>
+      <div className="title">{t('manageQuestion.heading')}</div>
       <hr />
       <div className="add-new-question">
         <div className="col-6 form-group">
-          <label className="mb-3 d-block fst-italic">Select quiz</label>
+          <label className="mb-3 d-block fst-italic">{t('manageQuestion.selectQuiz')}</label>
           <Select onChange={setSelectedQuiz} options={listQuiz} />
         </div>
-        <p className="my-3 fst-italic">Add questions</p>
+        <p className="my-3 fst-italic">{t('manageQuestion.addQuestions')}</p>
         {questions.length > 0 &&
           questions &&
           questions.map((question, index) => {
@@ -230,7 +232,9 @@ const Questions = (props) => {
                       value={question.description}
                       onChange={(event) => handleOnchange('QUESTION', question.id, event.target.value, '')}
                     />
-                    <label>Question {index + 1}'s description</label>
+                    <label>
+                      {t('manageQuestion.description')} {index + 1}
+                    </label>
                   </div>
                   <div className="group-upload">
                     <label htmlFor={question.id}>
@@ -247,7 +251,7 @@ const Questions = (props) => {
                         {question.imageName}
                       </span>
                     ) : (
-                      <span>0 file is uploaded</span>
+                      <span>{t('manageQuestion.uploadImage')}</span>
                     )}
                   </div>
                   <div className="btn-add">
@@ -286,7 +290,9 @@ const Questions = (props) => {
                               handleAnswerQuestion('INPUT', answer.id, question.id, event.target.value)
                             }
                           />
-                          <label>Answer {index + 1}</label>
+                          <label>
+                            {t('manageQuestion.answer')} {index + 1}
+                          </label>
                         </div>
                         <div className="btn-group">
                           <span onClick={() => handleAddRemoveAnswer('ADD', question.id, '')}>
@@ -308,7 +314,7 @@ const Questions = (props) => {
         {questions.length > 0 && questions && (
           <div>
             <button onClick={() => handleSubmitQuestionForQuiz()} className="btn btn-warning">
-              Save question
+              {t('manageQuestion.save')}
             </button>
           </div>
         )}

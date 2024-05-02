@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { doLogout } from '../../redux/action/userAction';
 import Languages from './Languages';
 import { useTranslation } from 'react-i18next';
+import { FaReact } from 'react-icons/fa';
 
 const Header = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -41,7 +42,10 @@ const Header = () => {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
         <NavLink to="/" className="navbar-brand">
-          TD's App
+          <span className="me-1">
+            <FaReact className="brand-icon" />
+          </span>
+          <span> TD's App</span>
         </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -68,9 +72,9 @@ const Header = () => {
               </>
             ) : (
               <>
-                <NavDropdown title="Settings" id="basic-nav-dropdown">
-                  <NavDropdown.Item>Profile</NavDropdown.Item>
-                  <NavDropdown.Item onClick={() => handleLogOut()}>Log out</NavDropdown.Item>
+                <NavDropdown title={t('header.settings')} id="basic-nav-dropdown">
+                  <NavDropdown.Item>{t('header.profile')}</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => handleLogOut()}>{t('header.logout')}</NavDropdown.Item>
                 </NavDropdown>
               </>
             )}

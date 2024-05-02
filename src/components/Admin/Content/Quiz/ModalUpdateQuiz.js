@@ -5,6 +5,7 @@ import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import { putUpdateQuizForAdmin } from '../../../../services/apiService';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const ModalUpdateQuiz = (props) => {
   const { show, setShow, dataUpdateQuiz, resetUpdateDataQuiz, fetchQuiz } = props;
@@ -24,6 +25,8 @@ const ModalUpdateQuiz = (props) => {
   const [type, setType] = useState('');
   const [image, setImage] = useState('');
   const [previewImage, setPreviewImage] = useState('');
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!_.isEmpty(dataUpdateQuiz)) {
@@ -72,13 +75,13 @@ const ModalUpdateQuiz = (props) => {
     <>
       <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className="modal-add-user">
         <Modal.Header closeButton>
-          <Modal.Title>Update a quiz</Modal.Title>
+          <Modal.Title>{t('manageQuiz.listQuiz.modalEdit.heading')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
             <div className="col-md-6">
               <label className="form-label">
-                Name <span className="text-danger">(*)</span>
+                {t('manageQuiz.name')} <span className="text-danger">(*)</span>
               </label>
               <input
                 type="text"
@@ -89,7 +92,7 @@ const ModalUpdateQuiz = (props) => {
             </div>
             <div className="col-md-6">
               <label className="form-label">
-                Description <span className="text-danger">(*)</span>
+                {t('manageQuiz.description')} <span className="text-danger">(*)</span>
               </label>
               <input
                 type="text"
@@ -99,7 +102,7 @@ const ModalUpdateQuiz = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Difficulty</label>
+              <label className="form-label">{t('manageQuiz.difficulty')}</label>
               <select className="form-select" onChange={(event) => setType(event.target.value)} value={type}>
                 <option value="Not Selected">Select Difficulty</option>
                 <option value="EASY">EASY</option>
@@ -109,7 +112,7 @@ const ModalUpdateQuiz = (props) => {
             </div>
             <div className="col-md-12">
               <label className="form-label label-upload" htmlFor="labelUpload">
-                <FcPlus /> Upload File Image
+                <FcPlus /> {t('manageQuiz.listQuiz.modalEdit.uploadImage')}
               </label>
               <input type="file" id="labelUpload" hidden onChange={(event) => handleUploadImage(event)} />
             </div>
@@ -121,10 +124,10 @@ const ModalUpdateQuiz = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t('close')}
           </Button>
           <Button variant="warning" onClick={() => handleSubmitUpdateQuiz()}>
-            Save
+            {t('save')}
           </Button>
         </Modal.Footer>
       </Modal>

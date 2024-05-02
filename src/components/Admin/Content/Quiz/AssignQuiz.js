@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { getAllQuizForAdmin, getAllUsers, postAssignQuiz } from '../../../../services/apiService';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const AssignQuiz = (props) => {
   const [listQuiz, setListQuiz] = useState([]);
@@ -9,6 +10,8 @@ const AssignQuiz = (props) => {
 
   const [listUser, setListUser] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchQuiz();
@@ -52,16 +55,16 @@ const AssignQuiz = (props) => {
   return (
     <div className="assign-quiz-container row">
       <div className="col-6 form-group">
-        <label className="mb-3 d-block fst-italic">Select quiz</label>
+        <label className="mb-3 d-block fst-italic">{t('manageQuiz.assign.selectQuiz')}</label>
         <Select defaultValue={selectedQuiz} onChange={setSelectedQuiz} options={listQuiz} />
       </div>
       <div className="col-6 form-group">
-        <label className="mb-3 d-block fst-italic">Select user</label>
+        <label className="mb-3 d-block fst-italic">{t('manageQuiz.assign.selectUser')}</label>
         <Select defaultValue={selectedUser} onChange={setSelectedUser} options={listUser} />
       </div>
       <div>
         <button className="btn btn-warning mt-3" onClick={() => handleAssign()}>
-          Assign
+          {t('manageQuiz.assign.btnAssign')}
         </button>
       </div>
     </div>

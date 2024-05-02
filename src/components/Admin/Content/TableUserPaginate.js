@@ -1,7 +1,9 @@
 import ReactPaginate from 'react-paginate';
+import { useTranslation } from 'react-i18next';
 
 const TableUserPaginate = (props) => {
   const { listUsers, pageCount, handlePageClick } = props;
+  const { t } = useTranslation();
 
   return (
     <>
@@ -9,10 +11,10 @@ const TableUserPaginate = (props) => {
         <thead>
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Username</th>
+            <th scope="col">{t('username')}</th>
             <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th>Action</th>
+            <th scope="col">{t('role')}</th>
+            <th>{t('manageUser.table.action')}</th>
           </tr>
         </thead>
         <tbody>
@@ -27,13 +29,13 @@ const TableUserPaginate = (props) => {
                   <td>{user.role}</td>
                   <td>
                     <button className="btn btn-secondary" onClick={() => props.handleClickBtnView(user)}>
-                      Detail
+                      {t('manageUser.button.detail')}
                     </button>
                     <button className="btn btn-warning mx-3" onClick={() => props.handleClickBtnUpdate(user)}>
-                      Update
+                      {t('manageUser.button.update')}
                     </button>
                     <button className="btn btn-danger" onClick={() => props.handleClickBtnDelete(user)}>
-                      Delete
+                      {t('manageUser.button.delete')}
                     </button>
                   </td>
                 </tr>
@@ -41,18 +43,18 @@ const TableUserPaginate = (props) => {
             })}
           {listUsers && listUsers.length === 0 && (
             <tr>
-              <td colSpan={'4'}>Not Found</td>
+              <td colSpan={'4'}>{t('table.error')}</td>
             </tr>
           )}
         </tbody>
       </table>
       <ReactPaginate
-        nextLabel="Next >"
+        nextLabel={t('manageUser.table.next')}
         onPageChange={(event) => handlePageClick(event)}
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
         pageCount={pageCount}
-        previousLabel="< Prev"
+        previousLabel={t('manageUser.table.prev')}
         pageClassName="page-item"
         pageLinkClassName="page-link"
         previousClassName="page-item"

@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { getQuizByUser } from '../../services/apiService';
 import './ListQuiz.scss';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const ListQuiz = (props) => {
   const [arrQuiz, setArrQuiz] = useState([]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     getQuizData();
@@ -29,13 +31,15 @@ const ListQuiz = (props) => {
                 <div className="card w-100" style={{ width: '18rem' }}>
                   <img src={`data:image/jpeg;base64,${quiz.image}`} className="border card-img-top" alt="..." />
                   <div className="card-body">
-                    <h5 className="card-title">Quiz {index + 1}</h5>
+                    <h5 className="card-title">
+                      {t('listQuiz.quiz')} {index + 1}
+                    </h5>
                     <p className="card-text">{quiz.description}</p>
                     <button
                       className="btn btn-primary"
                       onClick={() => navigate(`/quiz/${quiz.id}`, { state: { quizTitle: quiz.description } })}
                     >
-                      Start now
+                      {t('listQuiz.btnStart')}
                     </button>
                   </div>
                 </div>
@@ -44,7 +48,7 @@ const ListQuiz = (props) => {
           })}
         {arrQuiz && arrQuiz.length === 0 && (
           <div>
-            <p>You don't have any quiz now...</p>
+            <p>{t('listQuiz.noQuiz')}</p>
           </div>
         )}
       </div>

@@ -6,6 +6,9 @@ import './DetailQuiz.scss';
 import Question from './Question';
 import ModalResult from './ModalResult';
 import RightContent from './Content/RightContent';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import { useTranslation } from 'react-i18next';
+import Languages from '../Header/Languages';
 
 const DetailQuiz = (props) => {
   const location = useLocation();
@@ -17,6 +20,8 @@ const DetailQuiz = (props) => {
 
   const [isShowModalResult, setIsShowModalResult] = useState(false);
   const [dataModalResult, setDataModalResult] = useState({});
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchQuestions();
@@ -124,36 +129,48 @@ const DetailQuiz = (props) => {
   };
 
   return (
-    <div className="container detail-quiz-container">
-      <div className="left-content">
-        <h3 className="title">
-          Quiz {quizId}: {location?.state?.quizTitle}
-        </h3>
-        <div className="separate"></div>
-        <div className="question-content">
-          <Question
-            handleCheckBox={handleCheckBox}
-            index={index}
-            data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
-          />
+    <>
+      <div className="container">
+        <div className="d-flex mt-4 justify-content-between">
+          <Breadcrumb>
+            <Breadcrumb.Item href="/">{t('detailQuiz.breadcrumb.home')}</Breadcrumb.Item>
+            <Breadcrumb.Item href="http://localhost:3000/user">{t('detailQuiz.breadcrumb.user')}</Breadcrumb.Item>
+            <Breadcrumb.Item active>{t('detailQuiz.breadcrumb.doQuiz')}</Breadcrumb.Item>
+          </Breadcrumb>
+          <Languages />
         </div>
-        <div className="controls mt-4">
-          <button className="btn btn-secondary" onClick={() => handlePrev()}>
-            Prev
-          </button>
-          <button className="btn btn-primary" onClick={() => handleNext()}>
-            Next
-          </button>
-          <button className="btn btn-warning" onClick={() => handleFinish()}>
-            Finish
-          </button>
+        <div className="detail-quiz-container">
+          <div className="left-content">
+            <h3 className="title">
+              {t('detailQuiz.quiz')} {quizId}: {location?.state?.quizTitle}
+            </h3>
+            <div className="separate"></div>
+            <div className="question-content">
+              <Question
+                handleCheckBox={handleCheckBox}
+                index={index}
+                data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
+              />
+            </div>
+            <div className="controls mt-4">
+              <button className="btn btn-secondary" onClick={() => handlePrev()}>
+                {t('detailQuiz.btnPrev')}
+              </button>
+              <button className="btn btn-primary" onClick={() => handleNext()}>
+                {t('detailQuiz.btnNext')}
+              </button>
+              <button className="btn btn-warning" onClick={() => handleFinish()}>
+                {t('detailQuiz.btnFinish')}
+              </button>
+            </div>
+          </div>
+          <div className="right-content">
+            <RightContent dataQuiz={dataQuiz} handleFinish={handleFinish} setIndex={setIndex} />
+          </div>
+          <ModalResult show={isShowModalResult} setShow={setIsShowModalResult} dataModalResult={dataModalResult} />
         </div>
       </div>
-      <div className="right-content">
-        <RightContent dataQuiz={dataQuiz} handleFinish={handleFinish} setIndex={setIndex} />
-      </div>
-      <ModalResult show={isShowModalResult} setShow={setIsShowModalResult} dataModalResult={dataModalResult} />
-    </div>
+    </>
   );
 };
 export default DetailQuiz;

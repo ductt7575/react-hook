@@ -1,4 +1,13 @@
 {
+  "close": "Close",
+  "save": "Save",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "role": "Role",
+  "password": "Password",
+  "username": "Username",
+  "previewImage": "Preview Image",
+
   "homepage": {
     "heading1": "Make forms worth filling out",
     "desc": "Get more data—like signups, feedback, and anything else—with forms designed to be refreshingly different.",
@@ -15,5 +24,115 @@
       "btnLogin": "Log in",
       "btnSignup": "Sign up"
     }
+  },
+  "listQuiz": {
+    "btnStart": "Start Now",
+    "quiz": "Quiz",
+    "noQuiz": "You don't have any quiz now..."
+  },
+  "detailQuiz": {
+    "breadcrumb": {
+      "user": "User",
+      "doQuiz": "Do quiz",
+      "home": "Home"
+    },
+    "quiz": "Quiz",
+    "question": "Question",
+    "btnPrev": "Prev",
+    "btnNext": "Next",
+    "btnFinish": "Finish"
+  },
+  "header": {
+    "settings": "Settings",
+    "profile": "My profile",
+    "logout": "Log out"
+  },
+  "dashboard": {
+    "heading": "Analytics Dashboard",
+    "totalUsers": "Total Users",
+    "totalQuizzes": "Total Quizzes",
+    "totalQuestions": "Total Questions",
+    "totalAnswers": "Total Answers"
+  },
+  "sideBar": {
+    "dashboard": "Dashboard",
+    "feature": "Feature",
+    "manageUser": "Manage User",
+    "manageQuiz": "Manage Quiz",
+    "manageQuestion": "Manage Question"
+  },
+  "manageUser": {
+    "heading": "Manage User",
+    "button": {
+      "add": "Add new user",
+      "detail": "Detail",
+      "update": "Update",
+      "delete": "Delete"
+    },
+    "table": {
+      "action": "Action",
+      "error": "404 Error",
+      "next": "Next >",
+      "prev": "< Prev"
+    },
+    "detail": {
+      "heading": "Details",
+      "userImage": "User Image"
+    },
+    "delete": {
+      "heading": "Are you sure want to delete this user?",
+      "warning": "*Warning: By deleting this user you can't undo this action!"
+    },
+    "create": {
+      "heading": "Add new user",
+      "uploadImage": "Upload File Image"
+    },
+    "update": {
+      "heading": "Update a user",
+      "uploadImage": "Upload File Image"
+    }
+  },
+  "manageQuiz": {
+    "heading": "Manage Quiz",
+    "name": "Name",
+    "description": "Description",
+    "difficulty": "Difficulty",
+    "createNew": {
+      "heading": "Add New Quiz",
+      "chooseImage": "Choose Image",
+      "btnAdd": "Add"
+    },
+    "listQuiz": {
+      "heading": "List Quiz",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "modalEdit": {
+        "uploadImage": "Upload File Image",
+        "heading": "Update a quiz"
+      },
+      "modalDelete": {
+        "heading": "Are you sure want to delete this quiz?",
+        "warning": "*Warning: By deleting this quiz you can't undo this action!"
+      }
+    },
+    "update": {
+      "heading": "Update Q/A Quizzes"
+    },
+    "assign": {
+      "heading": "Assign to Users",
+      "selectQuiz": "Select quiz",
+      "selectUser": "Select user",
+      "btnAssign": "Assign"
+    }
+  },
+  "manageQuestion": {
+    "heading": "Manage Question",
+    "selectQuiz": "Select Quiz",
+    "addQuestions": "Add Questions",
+    "description": "Description for Question",
+    "answer": "Answer",
+    "uploadImage": "0 file is uploaded",
+    "save": "Save questions"
   }
 }

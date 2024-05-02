@@ -4,9 +4,11 @@ import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart, FaRe
 import sidebarBg from '../../assets/bg-sidebar.jpg';
 import './SideBar.scss';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props;
+  const { t } = useTranslation();
   return (
     <>
       <ProSidebar
@@ -40,19 +42,19 @@ const SideBar = (props) => {
         <SidebarContent>
           <Menu iconShape="circle">
             <MenuItem icon={<FaTachometerAlt />}>
-              Dashboard <Link to="/admin/" />
+              {t('sideBar.dashboard')} <Link to="/admin/" />
             </MenuItem>
           </Menu>
           <Menu iconShape="circle">
-            <SubMenu icon={<FaList />} title={'Features'}>
+            <SubMenu icon={<FaList />} title={t('sideBar.feature')}>
               <MenuItem>
-                Manage User <Link to="/admin/manage-user" />
+                {t('sideBar.manageUser')} <Link to="/admin/manage-user" />
               </MenuItem>
               <MenuItem>
-                Manage Quiz <Link to="/admin/manage-quiz" />
+                {t('sideBar.manageQuiz')} <Link to="/admin/manage-quiz" />
               </MenuItem>
               <MenuItem>
-                Manage Question <Link to="/admin/manage-question" />
+                {t('sideBar.manageQuestion')} <Link to="/admin/manage-question" />
               </MenuItem>
             </SubMenu>
           </Menu>

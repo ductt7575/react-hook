@@ -3,11 +3,13 @@ import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
 import Modal from 'react-bootstrap/Modal';
 import { deleteQuizForAdmin } from '../../../../services/apiService';
+import { useTranslation } from 'react-i18next';
 
 const ModalDeleteQuiz = (props) => {
   const { show, setShow, dataDeleteQuiz, fetchQuiz } = props;
 
   const handleClose = () => setShow(false);
+  const { t } = useTranslation();
 
   const handleSubmitDeleteQuiz = async () => {
     let data = await deleteQuizForAdmin(dataDeleteQuiz.id);
@@ -26,7 +28,7 @@ const ModalDeleteQuiz = (props) => {
     <>
       <Modal show={show} onHide={handleClose} size="md" backdrop="static" className="modal-delete-user">
         <Modal.Header closeButton>
-          <Modal.Title>Are you sure want to delete this quiz?</Modal.Title>
+          <Modal.Title>{t('manageQuiz.listQuiz.modalDelete.heading')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {dataDeleteQuiz && dataDeleteQuiz.id ? (
@@ -35,15 +37,15 @@ const ModalDeleteQuiz = (props) => {
                 <b>Id:</b> {dataDeleteQuiz.id}
               </p>
               <p>
-                <b>Name:</b> {dataDeleteQuiz.name}
+                <b>{t('manageQuiz.name')}:</b> {dataDeleteQuiz.name}
               </p>
               <p>
-                <b>Description:</b> {dataDeleteQuiz.description}
+                <b>{t('manageQuiz.description')}:</b> {dataDeleteQuiz.description}
               </p>
               <p>
-                <b>Difficulty:</b> {dataDeleteQuiz.difficulty}
+                <b>{t('manageQuiz.difficulty')}:</b> {dataDeleteQuiz.difficulty}
               </p>
-              <p className="modal-delete-user__warning">*Warning: By deleting this user you can't undo this action!</p>
+              <p className="modal-delete-user__warning">{t('manageQuiz.listQuiz.modalDelete.warning')}</p>
             </>
           ) : (
             ''
@@ -51,10 +53,10 @@ const ModalDeleteQuiz = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Cancel
+            {t('cancel')}
           </Button>
           <Button variant="danger" onClick={() => handleSubmitDeleteQuiz()}>
-            Confirm
+            {t('confirm')}
           </Button>
         </Modal.Footer>
       </Modal>

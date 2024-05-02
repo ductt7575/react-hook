@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { FcPlus } from 'react-icons/fc';
 import { useEffect } from 'react';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 const ModalViewUser = (props) => {
   const { show, setShow, dataUpdate, resetUpdateData } = props;
+  const { t } = useTranslation();
 
   const handleClose = () => {
     setShow(false);
@@ -42,7 +43,7 @@ const ModalViewUser = (props) => {
     <>
       <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className="modal-add-user">
         <Modal.Header closeButton>
-          <Modal.Title>Details</Modal.Title>
+          <Modal.Title>{t('manageUser.detail.heading')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
@@ -51,15 +52,15 @@ const ModalViewUser = (props) => {
               <input disabled type="email" className="form-control" value={email} />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Password</label>
+              <label className="form-label">{t('password')}</label>
               <input disabled type="password" className="form-control" value={password} />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Username</label>
+              <label className="form-label">{t('username')}</label>
               <input disabled type="text" className="form-control" value={username} />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Role</label>
+              <label className="form-label">{t('role')}</label>
               <select disabled className="form-select" value={role}>
                 <option value="USER">USER</option>
                 <option value="ADMIN">ADMIN</option>
@@ -68,19 +69,19 @@ const ModalViewUser = (props) => {
 
             <div className="col-md-12">
               <label className="form-label" htmlFor="label-upload">
-                User Image
+                {t('manageUser.detail.userImage')}
               </label>
               <input disabled type="file" id="label-upload" hidden />
             </div>
 
             <div className="col-md-12 img-preview">
-              {previewImage ? <img src={previewImage} /> : <span>Preview Image</span>}
+              {previewImage ? <img src={previewImage} /> : <span>{t('previewImage')}</span>}
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t('close')}
           </Button>
         </Modal.Footer>
       </Modal>
