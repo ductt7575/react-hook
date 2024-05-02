@@ -1,11 +1,12 @@
 import videoHompage from '../../assets/video/video-homepage.mp4';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 
 const HomePage = (props) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   return (
     <div className="homepage-container">
       <div className="video-wrapper">
@@ -13,14 +14,17 @@ const HomePage = (props) => {
           <source src={videoHompage} type="video/mp4" />
         </video>
       </div>
-      <div className="homepage-content">
+      <div className="homepage-content w-50">
+        <h1 className="heading1 w-75">{t('homepage.heading1')}</h1>
+
+        <p className="desc w-75 mt-3 mb-4">{t('homepage.desc')}</p>
         {isAuthenticated ? (
           <button className="my-btn btn-start" onClick={() => navigate(`/user`)}>
-            Doing quiz now !
+            {t('homepage.btnStart.doQuiz')}
           </button>
         ) : (
           <button className="my-btn btn-start" onClick={() => navigate(`/login`)}>
-            Get'started. It's free
+            {t('homepage.btnStart.login')}
           </button>
         )}
       </div>

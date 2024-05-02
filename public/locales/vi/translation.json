@@ -1,0 +1,19 @@
+{
+  "homepage": {
+    "heading1": "Tạo ra các biểu mẫu để điền thông tin vào",
+    "desc": "Thu thập nhiều dữ liệu hơn—như đăng ký, phản hồi, và bất cứ điều gì khác—với các biểu mẫu được thiết kế để mang lại sự mới mẻ và khác biệt.",
+    "btnStart": {
+      "login": "Bắt đầu ngay",
+      "doQuiz": "Làm Quiz ngay!"
+    }
+  },
+  "headerContainer": {
+    "home": "Trang chủ",
+    "user": "Khu vực người dùng",
+    "admin": "Khu vực quản trị",
+    "actionBtn": {
+      "btnLogin": "Đăng nhập",
+      "btnSignup": "Đăng ký"
+    }
+  }
+}

@@ -23,7 +23,7 @@ body {
 .my-btn {
   height: 40px;
   line-height: 36px;
-  min-width: 84px;
+  min-width: 116px;
   padding: 0px 18px;
   background: transparent;
   border: none;
@@ -72,8 +72,6 @@ body {
     display: flex;
     align-items: center;
     .video-wrapper {
-      width: calc(50% - 5px);
-      width: calc(50% - 5px);
       overflow: hidden;
     }
 

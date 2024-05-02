@@ -8,12 +8,16 @@ import { logOut } from '../../services/apiService';
 import { toast } from 'react-toastify';
 import { doLogout } from '../../redux/action/userAction';
 import Languages from './Languages';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const account = useSelector((state) => state.user.account);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
+
   const handleLogin = () => {
     navigate('/login');
   };
@@ -43,23 +47,23 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavLink to="/" className="nav-link">
-              Home
+              {t('headerContainer.home')}
             </NavLink>
             <NavLink to="/user" className="nav-link">
-              User
+              {t('headerContainer.user')}
             </NavLink>
             <NavLink to="/admin" className="nav-link">
-              Admin
+              {t('headerContainer.admin')}
             </NavLink>
           </Nav>
           <Nav>
             {isAuthenticated === false ? (
               <>
                 <button className="my-btn btn-login" onClick={() => handleLogin()}>
-                  Log in
+                  {t('headerContainer.actionBtn.btnLogin')}
                 </button>
                 <button className="my-btn btn-signup me-2" onClick={() => handleSignup()}>
-                  Sign up
+                  {t('headerContainer.actionBtn.btnSignup')}
                 </button>
               </>
             ) : (

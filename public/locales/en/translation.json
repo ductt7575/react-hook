@@ -1,0 +1,19 @@
+{
+  "homepage": {
+    "heading1": "Make forms worth filling out",
+    "desc": "Get more data—like signups, feedback, and anything else—with forms designed to be refreshingly different.",
+    "btnStart": {
+      "login": "Get's started. It's free",
+      "doQuiz": "Doing quiz now !"
+    }
+  },
+  "headerContainer": {
+    "home": "Home",
+    "user": "User",
+    "admin": "Admin",
+    "actionBtn": {
+      "btnLogin": "Log in",
+      "btnSignup": "Sign up"
+    }
+  }
+}
