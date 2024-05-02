@@ -109,6 +109,10 @@ const postUpsertQA = (data) => {
   return axios.post(`api/v1/quiz-upsert-qa`, { ...data });
 };
 
+const getOverviewDashBoard = () => {
+  return axios.get(`api/v1/overview`);
+};
+
 export {
   postCreateNewUser,
   getAllUsers,
@@ -130,4 +134,5 @@ export {
   postAssignQuiz,
   getQuizWithQA,
   postUpsertQA,
+  getOverviewDashBoard,
 };

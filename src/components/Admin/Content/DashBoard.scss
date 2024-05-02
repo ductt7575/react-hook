@@ -7,16 +7,27 @@
   }
   .content {
     display: flex;
+    column-gap: 20px;
     .c-left {
-      width: 50%;
+      width: 40%;
       .child {
-        height: 150px;
-        padding: 10px;
+        padding: 40px 0px;
         border: 1px solid #ccc;
+        border-radius: 10px;
+        text-align: center;
+        &-label {
+          font-weight: 600;
+          margin: 0;
+          margin-bottom: 10px;
+          color: #6b6b6b;
+        }
+        &-stats {
+          font-size: 30px;
+        }
       }
     }
     .c-right {
-      width: 50%;
+      width: 60%;
     }
   }
 }
