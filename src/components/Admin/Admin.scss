@@ -9,12 +9,25 @@
   .admin-content {
     width: 100%;
     .admin-header {
-      height: 40px;
-      border: 1px solid green;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px 40px 0 10px;
+      height: 60px;
+      border-bottom: 1px solid #ccc;
+      &__right {
+        display: flex;
+        column-gap: 20px;
+      }
+      &__left {
+        cursor: pointer;
+        font-size: 22px;
+        color: #666;
+      }
     }
 
     .admin-main {
-      height: calc(100vh - 40px);
+      height: calc(100vh - 60px);
     }
   }
 }
