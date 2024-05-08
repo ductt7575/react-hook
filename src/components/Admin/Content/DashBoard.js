@@ -43,8 +43,6 @@ const Dashboard = (props) => {
     }
   };
 
-  console.log(dataChart);
-
   return (
     <div className="dashboard-container">
       <div className="title">{t('dashboard.heading')}</div>
