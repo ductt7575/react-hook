@@ -16,7 +16,7 @@ import { normalize, schema } from 'normalizr';
 const QuizQA = (props) => {
   const cauHoiId = uuidv4();
   const dapAnId = uuidv4();
-  const [cauHoiObj, setCauHoiObj] = useState({
+  const [cauHoiObj, setCauHoiObj] = useImmer({
     [cauHoiId]: {
       id: cauHoiId,
       description: '',
@@ -25,7 +25,7 @@ const QuizQA = (props) => {
       answers: [dapAnId],
     },
   });
-  const [dapAnObj, setDapAnObj] = useState({
+  const [dapAnObj, setDapAnObj] = useImmer({
     [dapAnId]: { id: dapAnId, description: '', isCorrect: false },
   });
 
@@ -109,83 +109,110 @@ const QuizQA = (props) => {
 
   const handleAddRemoveQuestion = (type, id) => {
     if (type === 'ADD') {
+      const cauHoiId = uuidv4();
+      const dapAnId = uuidv4();
+
       const newQuestion = {
-        id: uuidv4(),
+        id: cauHoiId,
         description: '',
         imageFile: '',
         imageName: '',
-        answers: [{ id: uuidv4(), description: '', isCorrect: false }],
+        answers: [dapAnId],
       };
-      setQuestions([...questions, newQuestion]);
+
+      const newAnswer = {
+        id: dapAnId,
+        description: '',
+        isCorrect: false,
+      };
+
+      setCauHoiObj((draft) => {
+        draft[cauHoiId] = newQuestion;
+      });
+
+      setDapAnObj((draft) => {
+        draft[dapAnId] = newAnswer;
+      });
     }
     if (type === 'REMOVE') {
-      // let newQuestions = questions.filter((item) => item.id !== id);
-      setQuestions(questions.filter((item) => item.id !== id));
+      if (cauHoiObj[cauHoiId]) {
+        if (cauHoiObj[cauHoiId].answers && cauHoiObj[cauHoiId].answers.length > 0) {
+          setDapAnObj((draft) => {
+            cauHoiObj[cauHoiId].answers.forEach((item) => {
+              delete draft[item];
+            });
+          });
+        }
+      }
+
+      setCauHoiObj((draft) => {
+        delete draft[id];
+      });
     }
   };
 
   const handleAddRemoveAnswer = (type, qId, aId) => {
     if (type === 'ADD') {
-      const newAnswer = { id: uuidv4(), description: '', isCorrect: false };
-      setQuestions((draft) => {
-        let index = draft.findIndex((item) => item.id === qId);
-        draft[index].answers.push(newAnswer);
+      const dapAnId = uuidv4();
+      const newAnswer = { id: dapAnId, description: '', isCorrect: false };
+      setDapAnObj((draft) => {
+        draft[dapAnId] = newAnswer;
+      });
+
+      setCauHoiObj((draft) => {
+        draft[qId].answers.push(dapAnId);
       });
     }
     if (type === 'REMOVE') {
-      setQuestions((draft) => {
-        let index = draft.findIndex((item) => item.id === qId);
-        if (index > -1) {
-          draft[index].answers = questions[index].answers.filter((item) => item.id !== aId);
-        }
-      });
+      if (cauHoiObj[qId]) {
+        setCauHoiObj((draft) => {
+          let newAs = cauHoiObj[qId].answers.filter((item) => item !== aId);
+          draft[qId].answers = newAs;
+        });
+      }
+      if (dapAnObj[aId]) {
+        setDapAnObj((draft) => {
+          delete draft[aId];
+        });
+      }
     }
   };
 
   const handleOnchange = (type, qId, value, aId) => {
     if (type === 'QUESTION') {
-      let index = questions.findIndex((item) => item.id === qId);
-      setQuestions((draft) => {
-        if (index > -1) {
-          draft[index].description = value;
-        }
-      });
+      if (cauHoiObj[qId]) {
+        setCauHoiObj((draft) => {
+          draft[qId].description = value;
+        });
+      }
     }
   };
 
   const handleOnchangeFileQuestion = (qId, event) => {
-    let index = questions.findIndex((item) => item.id === qId);
-    if (index > -1 && event.target && event.target.files && event.target.files[0]) {
-      setQuestions((draft) => {
-        draft[index].imageFile = event.target.files[0];
-        // questionsClone[index].imageName = event.target.files[0].name;
+    if (cauHoiObj[qId] && event.target && event.target.files && event.target.files[0]) {
+      setCauHoiObj((draft) => {
+        draft[qId].imageFile = event.target.files[0];
         var split = event.target.files[0].name.split('.');
         var filename = split[0];
         var extension = split[1];
         if (filename.length > 15) {
           filename = filename.substring(0, 15);
         }
-        draft[index].imageName = filename + '.' + extension;
+        draft[qId].imageName = filename + '.' + extension;
       });
     }
   };
 
   const handleAnswerQuestion = (type, answerId, questionId, value) => {
-    let index = questions.findIndex((item) => item.id === questionId);
-    if (index > -1) {
-      setQuestions((draft) => {
-        draft[index].answers = draft[index].answers.map((answer) => {
-          if (answer.id === answerId) {
-            if (type === 'CHECKBOX') {
-              answer.isCorrect = value;
-            }
+    if (dapAnObj[answerId]) {
+      setDapAnObj((draft) => {
+        if (type === 'CHECKBOX') {
+          draft[answerId].isCorrect = value;
+        }
 
-            if (type === 'INPUT') {
-              answer.description = value;
-            }
-          }
-          return answer;
-        });
+        if (type === 'INPUT') {
+          draft[answerId].description = value;
+        }
       });
     }
   };
@@ -263,18 +290,14 @@ const QuizQA = (props) => {
     });
 
   const handlePreviewImage = (questionId) => {
-    let questionsClone = _.cloneDeep(questions);
-    let index = questionsClone.findIndex((item) => item.id === questionId);
-    if (index > -1) {
+    if (cauHoiObj[questionId]) {
       setDataImagePreview({
-        url: URL.createObjectURL(questionsClone[index].imageFile),
-        title: questionsClone[index].imageName,
+        url: URL.createObjectURL(cauHoiObj[questionId].imageFile),
+        title: cauHoiObj[questionId].imageName,
       });
       setIsPreviewImage(true);
     }
   };
-
-  const tifOptions = Object.keys(cauHoiObj).map((key, index) => console.log('key:', key, 'value:', cauHoiObj[key]));
 
   return (
     <div className="questions-container">
@@ -323,7 +346,7 @@ const QuizQA = (props) => {
                   <span onClick={() => handleAddRemoveQuestion('ADD', '')}>
                     <AiOutlinePlus className="icon-add" />
                   </span>
-                  {questions.length > 1 && (
+                  {Object.keys(cauHoiObj).length > 1 && (
                     <span onClick={() => handleAddRemoveQuestion('REMOVE', cauHoiObj[keyQ].id)}>
                       <AiOutlineMinus className="icon-remove" />
                     </span>
@@ -368,7 +391,7 @@ const QuizQA = (props) => {
                         <span onClick={() => handleAddRemoveAnswer('ADD', cauHoiObj[keyQ].id, '')}>
                           <AiOutlinePlus className="icon-add" />
                         </span>
-                        {cauHoiObj[keyQ].answers.length > 1 && (
+                        {Object.keys(dapAnObj).length > 1 && (
                           <span onClick={() => handleAddRemoveAnswer('REMOVE', cauHoiObj[keyQ].id, dapAnObj[keyA].id)}>
                             <AiOutlineMinus className="icon-remove" />
                           </span>
