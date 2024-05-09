@@ -117,7 +117,9 @@
       }
     },
     "update": {
-      "heading": "Update Q/A Quizzes"
+      "heading": "Update Q/A Quizzes",
+      "updateQuestions": "Update Questions",
+      "warning": "This quiz doesn't have any questions"
     },
     "assign": {
       "heading": "Assign to Users",

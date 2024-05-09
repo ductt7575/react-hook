@@ -14,6 +14,7 @@ import {
 } from '../../../../services/apiService';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useImmer } from 'use-immer';
 
 const Questions = (props) => {
   const initQuestions = [
@@ -25,7 +26,7 @@ const Questions = (props) => {
       answers: [{ id: uuidv4(), description: '', isCorrect: false }],
     },
   ];
-  const [questions, setQuestions] = useState(initQuestions);
+  const [questions, setQuestions] = useImmer(initQuestions);
 
   const [isPreviewImage, setIsPreviewImage] = useState('false');
   const [dataImagePreview, setDataImagePreview] = useState({
@@ -67,74 +68,70 @@ const Questions = (props) => {
       setQuestions([...questions, newQuestion]);
     }
     if (type === 'REMOVE') {
-      let questionsClone = _.cloneDeep(questions);
-      questionsClone = questionsClone.filter((item) => item.id !== id);
-      setQuestions(questionsClone);
+      setQuestions(questions.filter((item) => item.id !== id));
     }
   };
 
   const handleAddRemoveAnswer = (type, qId, aId) => {
-    let questionsClone = _.cloneDeep(questions);
     if (type === 'ADD') {
       const newAnswer = { id: uuidv4(), description: '', isCorrect: false };
-      let index = questionsClone.findIndex((item) => item.id === qId);
-      questionsClone[index].answers.push(newAnswer);
-      setQuestions(questionsClone);
+      setQuestions((draft) => {
+        let index = draft.findIndex((item) => item.id === qId);
+        draft[index].answers.push(newAnswer);
+      });
     }
     if (type === 'REMOVE') {
-      let index = questionsClone.findIndex((item) => item.id === qId);
-      if (index > -1) {
-        questionsClone[index].answers = questionsClone[index].answers.filter((item) => item.id !== aId);
-        setQuestions(questionsClone);
-      }
+      setQuestions((draft) => {
+        let index = questions.findIndex((item) => item.id === qId);
+        draft[index].answers = draft[index].answers.filter((item) => item.id !== aId);
+      });
     }
   };
 
   const handleOnchange = (type, qId, value, aId) => {
     if (type === 'QUESTION') {
-      let questionsClone = _.cloneDeep(questions);
-      let index = questionsClone.findIndex((item) => item.id === qId);
+      let index = questions.findIndex((item) => item.id === qId);
       if (index > -1) {
-        questionsClone[index].description = value;
-        setQuestions(questionsClone);
+        setQuestions((draft) => {
+          draft[index].description = value;
+        });
       }
     }
   };
 
   const handleOnchangeFileQuestion = (qId, event) => {
-    let questionsClone = _.cloneDeep(questions);
-    let index = questionsClone.findIndex((item) => item.id === qId);
+    let index = questions.findIndex((item) => item.id === qId);
     if (index > -1 && event.target && event.target.files && event.target.files[0]) {
-      questionsClone[index].imageFile = event.target.files[0];
-      // questionsClone[index].imageName = event.target.files[0].name;
-      var split = event.target.files[0].name.split('.');
-      var filename = split[0];
-      var extension = split[1];
-      if (filename.length > 15) {
-        filename = filename.substring(0, 15);
-      }
-      questionsClone[index].imageName = filename + '.' + extension;
-      setQuestions(questionsClone);
+      setQuestions((draft) => {
+        draft[index].imageFile = event.target.files[0];
+        var split = event.target.files[0].name.split('.');
+        var filename = split[0];
+        var extension = split[1];
+        if (filename.length > 15) {
+          filename = filename.substring(0, 15);
+        }
+        draft[index].imageName = filename + '.' + extension;
+      });
     }
   };
 
   const handleAnswerQuestion = (type, answerId, questionId, value) => {
-    let questionsClone = _.cloneDeep(questions);
-    let index = questionsClone.findIndex((item) => item.id === questionId);
+    let index = questions.findIndex((item) => item.id === questionId);
     if (index > -1) {
-      questionsClone[index].answers = questionsClone[index].answers.map((answer) => {
-        if (answer.id === answerId) {
-          if (type === 'CHECKBOX') {
-            answer.isCorrect = value;
-          }
+      setQuestions((draft) => {
+        draft[index].answers = draft[index].answers.map((answer) => {
+          if (answer.id === answerId) {
+            if (type === 'CHECKBOX') {
+              answer.isCorrect = value;
+            }
 
-          if (type === 'INPUT') {
-            answer.description = value;
+            if (type === 'INPUT') {
+              answer.description = value;
+            }
           }
-        }
-        return answer;
+          return answer;
+        });
       });
-      setQuestions(questionsClone);
     }
   };
 
@@ -197,15 +194,16 @@ const Questions = (props) => {
   };
 
   const handlePreviewImage = (questionId) => {
-    let questionsClone = _.cloneDeep(questions);
-    let index = questionsClone.findIndex((item) => item.id === questionId);
-    if (index > -1) {
-      setDataImagePreview({
-        url: URL.createObjectURL(questionsClone[index].imageFile),
-        title: questionsClone[index].imageName,
-      });
-      setIsPreviewImage(true);
-    }
+    setQuestions((draft) => {
+      let index = questions.findIndex((item) => item.id === questionId);
+      if (index > -1) {
+        setDataImagePreview({
+          url: URL.createObjectURL(draft[index].imageFile),
+          title: draft[index].imageName,
+        });
+        setIsPreviewImage(true);
+      }
+    });
   };
 
   return (
@@ -215,7 +213,7 @@ const Questions = (props) => {
       <div className="add-new-question">
         <div className="col-6 form-group">
           <label className="mb-3 d-block fst-italic">{t('manageQuestion.selectQuiz')}</label>
-          <Select onChange={setSelectedQuiz} options={listQuiz} />
+          <Select defaultValue={selectedQuiz} onChange={setSelectedQuiz} options={listQuiz} />
         </div>
         <p className="my-3 fst-italic">{t('manageQuestion.addQuestions')}</p>
         {questions.length > 0 &&

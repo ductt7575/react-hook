@@ -118,7 +118,9 @@
     },
 
     "update": {
-      "heading": "Cập nhật câu hỏi Q/A"
+      "heading": "Cập nhật câu hỏi Q/A",
+      "updateQuestions": "Cập nhật câu hỏi",
+      "warning": "Bài thi này chưa có câu hỏi nào"
     },
     "assign": {
       "heading": "Chỉ định cho người dùng",
