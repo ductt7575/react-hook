@@ -90,11 +90,15 @@ a {
   .homepage-container {
     display: flex;
     align-items: center;
+    column-gap: 50px;
     .video-wrapper {
+      width: 60%;
       overflow: hidden;
+      margin-right: -10px;
     }
 
     .homepage-content {
+      width: 40%;
       .btn-start {
         height: 50px;
         line-height: 46px;
