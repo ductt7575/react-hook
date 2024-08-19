@@ -1,0 +1,143 @@
+{
+  "close": "Đóng",
+  "save": "Lưu",
+  "cancel": "Hủy",
+  "confirm": "Xác nhận",
+  "role": "Vai trò",
+  "password": "Mật khẩu",
+  "username": "Tên tài khoản",
+  "previewImage": "Xem trước hình ảnh",
+
+  "appName": "QuizMaster",
+
+  "homepage": {
+    "heading1": "Thử tài Trí tuệ!",
+    "desc": " Hãy trải nghiệm những bài quiz đa dạng và thú vị, được tạo ra để thách thức bạn và dành riêng cho bạn.",
+    "btnStart": {
+      "login": "Bắt đầu ngay",
+      "doQuiz": "Làm bài thi ngay!"
+    }
+  },
+  "headerContainer": {
+    "home": "Trang chủ",
+    "user": "Người dùng",
+    "admin": "Quản trị",
+    "actionBtn": {
+      "btnLogin": "Đăng nhập",
+      "btnSignup": "Đăng ký"
+    }
+  },
+  "listQuiz": {
+    "btnStart": "Bắt đầu",
+    "quiz": "Bài thi",
+    "noQuiz": "Bạn không có bài kiểm tra nào..."
+  },
+  "detailQuiz": {
+    "breadcrumb": {
+      "user": "Người dùng",
+      "doQuiz": "Làm quiz",
+      "home": "Trang chủ"
+    },
+    "question": "Câu hỏi",
+    "quiz": "Bài thi",
+    "btnPrev": "Trước",
+    "btnNext": "Tiếp",
+    "btnFinish": "Nộp bài"
+  },
+  "header": {
+    "settings": "Cài đặt",
+    "profile": "Thông tin của tôi",
+    "logout": "Đăng xuất"
+  },
+  "dashboard": {
+    "heading": "Phân tích dữ liệu",
+    "totalUsers": "Số người dùng",
+    "totalQuizzes": "Số bài thi",
+    "totalQuestions": "Số câu hỏi",
+    "totalAnswers": "Số Câu trả lời"
+  },
+  "sideBar": {
+    "dashboard": "Bảng điều khiển",
+    "feature": "Quản lý",
+    "manageUser": "Quản lý người dùng",
+    "manageQuiz": "Quản lý bài thi",
+    "manageQuestion": "Quản lý câu hỏi"
+  },
+  "manageUser": {
+    "heading": "Quản lý người dùng",
+    "button": {
+      "add": "Thêm người dùng",
+      "detail": "Chi tiết",
+      "update": "Cập nhật",
+      "delete": "Xóa"
+    },
+    "table": {
+      "action": "Hành động",
+      "error": "404 Lỗi",
+      "next": "Sau >",
+      "prev": "< Trước"
+    },
+    "detail": {
+      "heading": "Thông tin chi tiết",
+      "userImage": "Ảnh người dùng"
+    },
+    "delete": {
+      "heading": "Bạn muốn xóa người dùng này?",
+      "warning": "*Cảnh báo: Bạn không thể hoàn tác hành động này!"
+    },
+    "create": {
+      "heading": "Thêm mới người dùng",
+      "uploadImage": "Tải lên hình ảnh"
+    },
+    "update": {
+      "heading": "Cập nhật thông tin",
+      "uploadImage": "Tải lên hình ảnh"
+    }
+  },
+  "manageQuiz": {
+    "heading": "Quản lý bài thi",
+    "name": "Tên bài thi",
+    "description": "Mô tả",
+    "difficulty": "Độ khó",
+    "createNew": {
+      "heading": "Thêm mới bài thi",
+      "chooseImage": "Chọn hình ảnh",
+      "btnAdd": "Thêm bài thi"
+    },
+    "listQuiz": {
+      "heading": "Danh sách bài thi",
+      "actions": "Hành động",
+      "edit": "Sửa",
+      "delete": "Xóa",
+      "modalEdit": {
+        "heading": "Cập nhật bài thi",
+        "uploadImage": "Tải lên hình ảnh"
+      },
+      "modalDelete": {
+        "heading": "Bạn có chắc chắn muốn xóa bài thi này?",
+        "warning": "*Cảnh báo: Bạn không thể hoàn tác hành động này!"
+      }
+    },
+
+    "update": {
+      "heading": "Cập nhật câu hỏi Q/A",
+      "updateQuestions": "Cập nhật câu hỏi",
+      "warning": "Bài thi này chưa có câu hỏi nào"
+    },
+    "assign": {
+      "heading": "Chỉ định cho người dùng",
+      "selectQuiz": "Chọn bài thi",
+      "selectUser": "Chọn người dùng",
+      "btnAssign": "Chỉ định"
+    }
+  },
+  "manageQuestion": {
+    "heading": "Quản lý câu hỏi",
+    "selectQuiz": "Chọn bài thi",
+    "addQuestions": "Thêm câu hỏi",
+    "description": "Mô tả câu hỏi",
+    "answer": "Câu trả lời",
+    "uploadImage": "0 tệp được tải lên",
+    "save": "Lưu câu hỏi"
+  }
+}

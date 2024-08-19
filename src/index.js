@@ -1,18 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { store, persistor } from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { BrowserRouter } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+import i18n from "./utils/i18n";
+import Layout from "./Layout";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import "bootstrap/dist/css/bootstrap.min.css";
+import "nprogress/nprogress.css";
+import "react-perfect-scrollbar/dist/css/styles.css";
+import "react-awesome-lightbox/build/style.css";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <Provider store={store}>
-        {/* <React.StrictMode> */}
-        <App />
-        {/* </React.StrictMode> */}
-    </Provider>,
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      {/* <React.StrictMode> */}
+      <BrowserRouter>
+        <Layout />
+      </BrowserRouter>
+      {/* </React.StrictMode> */}
+    </PersistGate>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
