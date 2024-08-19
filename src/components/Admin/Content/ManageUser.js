@@ -1,14 +1,14 @@
-import './ManageUser.scss';
-import { useEffect, useState } from 'react';
-import { getUserWithPaginate } from '../../../services/apiService';
-import ModalCreateUser from './ModalCreateUser';
-import ModalUpdateUser from './ModalUpdateUser';
-import ModalViewUser from './ModalViewUser';
-import ModalDeleteUser from './ModalDeleteUser';
-import TableUserPaginate from './TableUserPaginate';
-import { useTranslation } from 'react-i18next';
+import "./ManageUser.scss";
+import { useEffect, useState } from "react";
+import { getUserWithPaginate } from "../../../services/apiService";
+import ModalCreateUser from "./ModalCreateUser";
+import ModalUpdateUser from "./ModalUpdateUser";
+import ModalViewUser from "./ModalViewUser";
+import ModalDeleteUser from "./ModalDeleteUser";
+import TableUserPaginate from "./TableUserPaginate";
+import { useTranslation } from "react-i18next";
 
-const ManageUser = (props) => {
+const ManageUser = () => {
   const LIMIT_USER = 5;
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +39,7 @@ const ManageUser = (props) => {
   const fetchListUsersWithPaginate = async (page) => {
     let res = await getUserWithPaginate(page, LIMIT_USER);
     if (res.EC === 0) {
-      console.log('>>>checking user:', res.DT);
+      console.log(">>>checking user:", res.DT);
       setListUsers(res.DT.users);
       setPageCount(res.DT.totalPages);
     }
@@ -72,11 +72,14 @@ const ManageUser = (props) => {
 
   return (
     <div className="manage-user-container">
-      <div className="title"> {t('manageUser.heading')}</div>
+      <div className="title"> {t("manageUser.heading")}</div>
       <div className="user-content">
         <div className="btn-add-new">
-          <button className="btn btn-primary" onClick={() => setShowModalCreateUser(true)}>
-            {t('manageUser.button.add')}
+          <button
+            className="btn btn-primary"
+            onClick={() => setShowModalCreateUser(true)}
+          >
+            {t("manageUser.button.add")}
           </button>
         </div>
         <div className="table-user-container">

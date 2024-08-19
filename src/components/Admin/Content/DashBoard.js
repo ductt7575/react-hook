@@ -1,10 +1,18 @@
-import { useState, useEffect } from 'react';
-import './DashBoard.scss';
-import { BarChart, Bar, CartesianGrid, Legend, Tooltip, YAxis, XAxis, ResponsiveContainer } from 'recharts';
-import { getOverviewDashBoard } from '../../../services/apiService';
-import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from "react";
+import "./DashBoard.scss";
+import {
+  BarChart,
+  Bar,
+  Legend,
+  Tooltip,
+  YAxis,
+  XAxis,
+  ResponsiveContainer,
+} from "recharts";
+import { getOverviewDashBoard } from "../../../services/apiService";
+import { useTranslation } from "react-i18next";
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   const [dataOverview, setDataOverview] = useState([]);
   const [dataChart, setDataChart] = useState([]);
 
@@ -27,15 +35,15 @@ const Dashboard = (props) => {
 
       const data = [
         {
-          name: 'Quizzes',
+          name: "Quizzes",
           Qz: Qz,
         },
         {
-          name: 'Questions',
+          name: "Questions",
           Qs: Qs,
         },
         {
-          name: 'Answers',
+          name: "Answers",
           Aw: Aw,
         },
       ];
@@ -45,53 +53,45 @@ const Dashboard = (props) => {
 
   return (
     <div className="dashboard-container">
-      <div className="title">{t('dashboard.heading')}</div>
+      <div className="title">{t("dashboard.heading")}</div>
       <div className="content">
         <div className="c-left row g-3">
           <div className="col-md-6 col-sm-12">
             <div className="child">
-              <p className="child-label">{t('dashboard.totalUsers')}</p>
+              <p className="child-label">{t("dashboard.totalUsers")}</p>
               <span className="child-stats">
-                {dataOverview && dataOverview.users && dataOverview.users.total ? (
-                  <>{dataOverview.users.total}</>
-                ) : (
-                  <>0</>
+                {dataOverview && dataOverview.users && (
+                  <>{dataOverview.users.total ?? 0}</>
                 )}
               </span>
             </div>
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="child">
-              <p className="child-label">{t('dashboard.totalQuizzes')}</p>
+              <p className="child-label">{t("dashboard.totalQuizzes")}</p>
               <span className="child-stats">
-                {dataOverview && dataOverview.others && dataOverview.others.countQuiz ? (
-                  <>{dataOverview.others.countQuiz}</>
-                ) : (
-                  <>0</>
+                {dataOverview && dataOverview.others && (
+                  <>{dataOverview.others.countQuiz ?? 0}</>
                 )}
               </span>
             </div>
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="child">
-              <p className="child-label">{t('dashboard.totalQuestions')}</p>
+              <p className="child-label">{t("dashboard.totalQuestions")}</p>
               <span className="child-stats">
-                {dataOverview && dataOverview.others && dataOverview.others.countQuestions ? (
-                  <>{dataOverview.others.countQuestions}</>
-                ) : (
-                  <>0</>
+                {dataOverview && dataOverview.others && (
+                  <>{dataOverview.others.countQuestions ?? 0}</>
                 )}
               </span>
             </div>
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="child">
-              <p className="child-label">{t('dashboard.totalUsers')}</p>
+              <p className="child-label">{t("dashboard.totalAnswers")}</p>
               <span className="child-stats">
-                {dataOverview && dataOverview.others && dataOverview.others.countAnswers ? (
-                  <>{dataOverview.others.countAnswers}</>
-                ) : (
-                  <>0</>
+                {dataOverview && dataOverview.others && (
+                  <>{dataOverview.others.countAnswers ?? 0}</>
                 )}
               </span>
             </div>
@@ -100,7 +100,6 @@ const Dashboard = (props) => {
         <div className="c-right">
           <ResponsiveContainer width="95%" height="100%">
             <BarChart data={dataChart}>
-              {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />

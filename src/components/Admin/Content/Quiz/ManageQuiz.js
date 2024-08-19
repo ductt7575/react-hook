@@ -1,30 +1,33 @@
-import { useState, useEffect } from 'react';
-import Select from 'react-select';
-import './ManageQuiz.scss';
-import { toast } from 'react-toastify';
-import { getAllQuizForAdmin, postCreateNewQuiz } from '../../../../services/apiService';
-import TableQuiz from './TableQuiz';
-import Accordion from 'react-bootstrap/Accordion';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { BsList } from 'react-icons/bs';
-import { MdUpdate, MdOutlineAssignmentTurnedIn } from 'react-icons/md';
-import QuizQA from './QuizQA';
-import AssignQuiz from './AssignQuiz';
-import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from "react";
+import Select from "react-select";
+import "./ManageQuiz.scss";
+import { toast } from "react-toastify";
+import {
+  getAllQuizForAdmin,
+  postCreateNewQuiz,
+} from "../../../../services/apiService";
+import TableQuiz from "./TableQuiz";
+import Accordion from "react-bootstrap/Accordion";
+import { AiOutlinePlus } from "react-icons/ai";
+import { BsList } from "react-icons/bs";
+import { MdUpdate, MdOutlineAssignmentTurnedIn } from "react-icons/md";
+import QuizQA from "./QuizQA";
+import AssignQuiz from "./AssignQuiz";
+import { useTranslation } from "react-i18next";
 
 const options = [
-  { value: 'EASY', label: 'EASY' },
-  { value: 'MEDIUM', label: 'MEDIUM' },
-  { value: 'HARD', label: 'HARD' },
+  { value: "EASY", label: "EASY" },
+  { value: "MEDIUM", label: "MEDIUM" },
+  { value: "HARD", label: "HARD" },
 ];
 
 const ManageQuiz = (props) => {
   const [listQuiz, setListQuiz] = useState([]);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [type, setType] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState("");
   const [image, setImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
   const { t } = useTranslation();
 
   const handleChangeFile = (event) => {
@@ -37,15 +40,15 @@ const ManageQuiz = (props) => {
   const handleSubmitQuiz = async (event) => {
     //validate
     if (!name || !description) {
-      toast.error('Name/Description is required');
+      toast.error("Name/Description is required");
       return;
     }
     let res = await postCreateNewQuiz(description, name, type?.value, image);
     if (res && res.EC === 0) {
       toast.success(res.EM);
-      setName('');
-      setDescription('');
-      setType('');
+      setName("");
+      setDescription("");
+      setType("");
       setImage(null);
       fetchQuiz();
     }
@@ -67,16 +70,16 @@ const ManageQuiz = (props) => {
 
   return (
     <div className="quiz-container">
-      <div className="title mb-3">{t('manageQuiz.heading')}</div>
+      <div className="title mb-3">{t("manageQuiz.heading")}</div>
       <Accordion>
         <Accordion.Item eventKey="0">
           <Accordion.Header>
             <AiOutlinePlus
               style={{
-                marginRight: '8px',
+                marginRight: "8px",
               }}
             />
-            {t('manageQuiz.createNew.heading')}
+            {t("manageQuiz.createNew.heading")}
           </Accordion.Header>
           <Accordion.Body>
             <div className="add-new">
@@ -91,7 +94,8 @@ const ManageQuiz = (props) => {
                   onChange={(event) => setName(event.target.value)}
                 />
                 <label>
-                  {t('manageQuiz.name')} <span className="text-danger">(*)</span>
+                  {t("manageQuiz.name")}{" "}
+                  <span className="text-danger">(*)</span>
                 </label>
               </div>
               <div className="form-floating mb-3">
@@ -103,7 +107,8 @@ const ManageQuiz = (props) => {
                   onChange={(event) => setDescription(event.target.value)}
                 />
                 <label>
-                  {t('manageQuiz.description')} <span className="text-danger">(*)</span>
+                  {t("manageQuiz.description")}{" "}
+                  <span className="text-danger">(*)</span>
                 </label>
               </div>
               <div className="mb-3">
@@ -111,20 +116,35 @@ const ManageQuiz = (props) => {
                   defaultValue={type}
                   onChange={setType}
                   options={options}
-                  placeholder={t('manageQuiz.difficulty')}
+                  placeholder={t("manageQuiz.difficulty")}
                 />
               </div>
               <div className="col-md-12  mb-3">
-                <input type="file" id="label-upload" hidden onChange={(event) => handleChangeFile(event)} />
+                <input
+                  type="file"
+                  id="label-upload"
+                  hidden
+                  onChange={(event) => handleChangeFile(event)}
+                />
               </div>
               <div className="col-md-12 img-preview">
-                <label className="form-label label-upload " htmlFor="label-upload">
-                  {previewImage ? <img src={previewImage} /> : <span>{t('manageQuiz.createNew.chooseImage')}</span>}
+                <label
+                  className="form-label label-upload "
+                  htmlFor="label-upload"
+                >
+                  {previewImage ? (
+                    <img src={previewImage} alt="previewImage" />
+                  ) : (
+                    <span>{t("manageQuiz.createNew.chooseImage")}</span>
+                  )}
                 </label>
               </div>
               <div>
-                <button className="btn btn-warning mt-4" onClick={(event) => handleSubmitQuiz(event)}>
-                  {t('manageQuiz.createNew.btnAdd')}
+                <button
+                  className="btn btn-warning mt-4"
+                  onClick={(event) => handleSubmitQuiz(event)}
+                >
+                  {t("manageQuiz.createNew.btnAdd")}
                 </button>
               </div>
               {/* </fieldset> */}
@@ -138,23 +158,27 @@ const ManageQuiz = (props) => {
             <Accordion.Header>
               <BsList
                 style={{
-                  marginRight: '8px',
+                  marginRight: "8px",
                 }}
               />
-              {t('manageQuiz.listQuiz.heading')}
+              {t("manageQuiz.listQuiz.heading")}
             </Accordion.Header>
             <Accordion.Body>
-              <TableQuiz fetchQuiz={fetchQuiz} listQuiz={listQuiz} options={options} />
+              <TableQuiz
+                fetchQuiz={fetchQuiz}
+                listQuiz={listQuiz}
+                options={options}
+              />
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="1">
             <Accordion.Header>
               <MdUpdate
                 style={{
-                  marginRight: '8px',
+                  marginRight: "8px",
                 }}
               />
-              {t('manageQuiz.update.heading')}
+              {t("manageQuiz.update.heading")}
             </Accordion.Header>
             <Accordion.Body>
               <QuizQA />
@@ -164,10 +188,10 @@ const ManageQuiz = (props) => {
             <Accordion.Header>
               <MdOutlineAssignmentTurnedIn
                 style={{
-                  marginRight: '8px',
+                  marginRight: "8px",
                 }}
               />
-              {t('manageQuiz.assign.heading')}
+              {t("manageQuiz.assign.heading")}
             </Accordion.Header>
             <Accordion.Body>
               <AssignQuiz />

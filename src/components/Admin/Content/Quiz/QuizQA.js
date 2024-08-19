@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Select from "react-select";
 import "./QuizQA.scss";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useImmer } from "use-immer";
 
-const QuizQA = (props) => {
+const QuizQA = () => {
   const initQuestions = [
     {
       id: uuidv4(),
@@ -43,28 +43,21 @@ const QuizQA = (props) => {
     fetchQuiz();
   }, []);
 
-  useEffect(() => {
-    if (selectedQuiz && selectedQuiz.value) {
-      fetchQuizWithQA();
-    }
-  }, [selectedQuiz]);
-
-  function urltoFile(url, filename, mimeType) {
+  function urlToFile(url, filename, mimeType) {
     return fetch(url)
       .then((res) => res.arrayBuffer())
       .then((buf) => new File([buf], filename, { type: mimeType }));
   }
 
-  const fetchQuizWithQA = async () => {
+  const fetchQuizWithQA = useCallback(async () => {
     let res = await getQuizWithQA(selectedQuiz.value);
     if (res && res.EC === 0) {
-      // convert base64 to file object
       let newQA = [];
       for (let i = 0; i < res.DT.qa.length; i++) {
         let q = res.DT.qa[i];
         if (q.imageFile) {
           q.imageName = `Question-${q.id}.png`;
-          q.imageFile = await urltoFile(
+          q.imageFile = await urlToFile(
             `data:image/png;base64,${q.imageFile}`,
             `Question-${q.id}.png`,
             "image/png"
@@ -74,7 +67,13 @@ const QuizQA = (props) => {
       }
       setQuestions(newQA);
     }
-  };
+  }, [selectedQuiz.value, setQuestions]);
+
+  useEffect(() => {
+    if (selectedQuiz && selectedQuiz.value) {
+      fetchQuizWithQA();
+    }
+  }, [fetchQuizWithQA, selectedQuiz]);
 
   const fetchQuiz = async () => {
     let res = await getAllQuizForAdmin();

@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import { toast } from 'react-toastify';
-import Modal from 'react-bootstrap/Modal';
-import { deleteUser } from '../../../services/apiService';
-import { useTranslation } from 'react-i18next';
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
+import Modal from "react-bootstrap/Modal";
+import { deleteUser } from "../../../services/apiService";
+import { useTranslation } from "react-i18next";
 
 const ModalDeleteUser = (props) => {
   const { show, setShow, dataDelete, currentPage } = props;
@@ -25,9 +24,15 @@ const ModalDeleteUser = (props) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} size="md" backdrop="static" className="modal-delete-user">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="md"
+        backdrop="static"
+        className="modal-delete-user"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>{t('manageUser.delete.heading')}</Modal.Title>
+          <Modal.Title>{t("manageUser.delete.heading")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {dataDelete && dataDelete.email ? (
@@ -36,23 +41,25 @@ const ModalDeleteUser = (props) => {
                 <b>Email:</b> {dataDelete.email}
               </p>
               <p>
-                <b>{t('username')}:</b> {dataDelete.username}
+                <b>{t("username")}:</b> {dataDelete.username}
               </p>
               <p>
-                <b>{t('role')}:</b> {dataDelete.role}
+                <b>{t("role")}:</b> {dataDelete.role}
               </p>
-              <p className="modal-delete-user__warning">{t('manageUser.delete.warning')}</p>
+              <p className="modal-delete-user__warning">
+                {t("manageUser.delete.warning")}
+              </p>
             </>
           ) : (
-            ''
+            ""
           )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            {t('cancel')}
+            {t("cancel")}
           </Button>
           <Button variant="danger" onClick={() => handleSubmitDeleteUser()}>
-            {t('confirm')}
+            {t("confirm")}
           </Button>
         </Modal.Footer>
       </Modal>

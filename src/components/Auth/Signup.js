@@ -1,16 +1,18 @@
-import { useState } from 'react';
-import './Login.scss';
-import { Link } from 'react-router-dom';
-import { postSignup } from '../../services/apiService';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import Languages from '../Header/Languages';
+import { useState } from "react";
+import "./Login.scss";
+import { Link } from "react-router-dom";
+import { postSignup } from "../../services/apiService";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import Languages from "../Header/Languages";
+import { useTranslation } from "react-i18next";
 
-const Signup = (props) => {
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Signup = () => {
+  const { t } = useTranslation();
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const [showPass, setShowPass] = useState(false);
   const clickHandler = () => {
@@ -23,7 +25,7 @@ const Signup = (props) => {
     return String(email)
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
   const validatePassword = (password) => {
@@ -42,18 +44,18 @@ const Signup = (props) => {
     const isValidEmail = validateEmail(email);
     const isValidPassword = validatePassword(password);
     if (!isValidEmail) {
-      toast.error('Invalid email');
+      toast.error("Invalid email");
       return;
     }
     if (!isValidPassword) {
-      toast.error('Invalid password');
+      toast.error("Invalid password");
       return;
     }
     // Submit apis
     let data = await postSignup(email, username, password);
     if (data && data.EC === 0) {
       toast.success(data.EM);
-      navigate('/login');
+      navigate("/login");
     }
 
     if (data && +data.EC !== 0) {
@@ -68,7 +70,7 @@ const Signup = (props) => {
           {`<`} Back home
         </Link>
         <p className="m-0">Already have an account?</p>
-        <Link to={'/login'} className="btn border-dark me-3">
+        <Link to={"/login"} className="btn border-dark me-3">
           Log in
         </Link>
         <Languages />
@@ -77,7 +79,7 @@ const Signup = (props) => {
         <p className="text-center fs-5 mb-0">Welcome to...</p>
         <div className="text-center mb-4 mt-3">
           <Link to="/" className="text-decoration-none fs-2 fw-bold text-dark">
-            Trong Duc's Application
+            {t("appName")}
           </Link>
         </div>
         <div className="content-form">
@@ -96,7 +98,8 @@ const Signup = (props) => {
             </div>
             <div className="form-group mt-3">
               <label className="fw-bolder">
-                Username <span className="fw-normal text-danger">(Optional)</span>
+                Username{" "}
+                <span className="fw-normal text-danger">(Optional)</span>
               </label>
               <input
                 value={username}
@@ -113,13 +116,13 @@ const Signup = (props) => {
               <div className="input-group position-relative">
                 <input
                   value={password}
-                  type={showPass ? 'text' : 'password'}
+                  type={showPass ? "text" : "password"}
                   className="form-control mt-2 rounded z-2"
                   placeholder="At least 6 letters"
                   onChange={(event) => setPassword(event.target.value)}
                 />
                 <span
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                   className="user-select-none position-absolute top-50 end-0 translate-middle z-3"
                   onClick={() => clickHandler()}
                 >

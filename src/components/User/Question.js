@@ -1,7 +1,7 @@
-import _ from 'lodash';
-import { useState } from 'react';
-import Lightbox from 'react-awesome-lightbox';
-import { useTranslation } from 'react-i18next';
+import _ from "lodash";
+import { useState } from "react";
+import Lightbox from "react-awesome-lightbox";
+import { useTranslation } from "react-i18next";
 
 const Question = (props) => {
   const { data, index, handleCheckBox } = props;
@@ -23,9 +23,10 @@ const Question = (props) => {
       {data.image ? (
         <div className="question-img">
           <img
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
             src={`data:image/jpeg;base64,${data.image}`}
             onClick={() => setIsPreviewImage(true)}
+            alt="previewImage"
           />
           {isPreviewImage && (
             <Lightbox
@@ -39,7 +40,7 @@ const Question = (props) => {
         <div className="question-img"></div>
       )}
       <div className="question mt-3 ms-4">
-        {t('detailQuiz.question')} {index + 1}: {data.questionDescription} ?
+        {t("detailQuiz.question")} {index + 1}: {data.questionDescription} ?
       </div>
       <div className="answer mt-3 ms-5">
         {data.answers &&
@@ -54,7 +55,9 @@ const Question = (props) => {
                     checked={a.isSelected}
                     onChange={() => handleHandleCheckBox(a.id, data.questionId)}
                   />
-                  <label className="form-check-label user-select-none">{a.description}</label>
+                  <label className="form-check-label user-select-none">
+                    {a.description}
+                  </label>
                 </div>
               </div>
             );

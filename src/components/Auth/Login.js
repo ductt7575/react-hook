@@ -1,19 +1,20 @@
-import { useState } from 'react';
-import './Login.scss';
-import { Link } from 'react-router-dom';
-import { postLogin } from '../../services/apiService';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
-import { doLogin } from '../../redux/action/userAction';
-import { ImSpinner6 } from 'react-icons/im';
-import Languages from '../Header/Languages';
+import { useState } from "react";
+import "./Login.scss";
+import { Link } from "react-router-dom";
+import { postLogin } from "../../services/apiService";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { doLogin } from "../../redux/action/userAction";
+import Languages from "../Header/Languages";
+import { useTranslation } from "react-i18next";
 
-const Login = (props) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch('');
+const Login = () => {
+  const { t } = useTranslation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch("");
   const [isLoading, setIsLoading] = useState(false);
 
   const [showPass, setShowPass] = useState(false);
@@ -27,7 +28,7 @@ const Login = (props) => {
     return String(email)
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
 
@@ -36,11 +37,11 @@ const Login = (props) => {
     // validate
     const isValidEmail = validateEmail(email);
     if (!isValidEmail) {
-      toast.error('Invalid email');
+      toast.error("Invalid email");
       return;
     }
     if (!password) {
-      toast.error('Invalid password');
+      toast.error("Invalid password");
       return;
     }
     setIsLoading(true);
@@ -51,7 +52,7 @@ const Login = (props) => {
       dispatch(doLogin(data));
       toast.success(data.EM);
       setIsLoading(false);
-      navigate('/');
+      navigate("/");
     }
 
     if (data && +data.EC !== 0) {
@@ -67,7 +68,7 @@ const Login = (props) => {
           {`<`} Back home
         </Link>
         <p className="m-0">Don't have an account yet?</p>
-        <Link to={'/signup'} className="btn border-dark me-3">
+        <Link to={"/signup"} className="btn border-dark me-3">
           Sign up
         </Link>
         <Languages />
@@ -75,7 +76,7 @@ const Login = (props) => {
       <div className="login-body col-4 mx-auto mt-4 pt-3">
         <div className="text-center">
           <Link to="/" className="text-decoration-none fs-2 fw-bold text-dark">
-            Trong Duc's Application
+            {t("appName")}
           </Link>
         </div>
         <p className="text-center mt-3 fs-5 py-2"> Hello, who’s this?</p>
@@ -100,13 +101,13 @@ const Login = (props) => {
               <div className="input-group position-relative">
                 <input
                   value={password}
-                  type={showPass ? 'text' : 'password'}
+                  type={showPass ? "text" : "password"}
                   className="form-control mt-2 z-2"
                   placeholder="At least 6 letters"
                   onChange={(event) => setPassword(event.target.value)}
                 />
                 <span
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: "pointer" }}
                   className="user-select-none position-absolute top-50 end-0 translate-middle z-3"
                   onClick={() => clickHandler()}
                 >
@@ -114,17 +115,23 @@ const Login = (props) => {
                 </span>
               </div>
             </div>
-            <Link to={'/forgot-password'} className="mt-2 fs-6 text-end d-block">
+            <Link
+              to={"/forgot-password"}
+              className="mt-2 fs-6 text-end d-block"
+            >
               Forgot password?
             </Link>
             <div className="form-group mt-4">
               <button className="btn btn-dark col-12" disabled={isLoading}>
                 {isLoading ? (
-                  <div class="spinner-border spinner-border-sm me-3" role="status">
+                  <div
+                    class="spinner-border spinner-border-sm me-3"
+                    role="status"
+                  >
                     <span class="visually-hidden">Loading...</span>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
 
                 <span>Login</span>

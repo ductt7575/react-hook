@@ -1,26 +1,29 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import App from './App';
-import User from './components/User/User';
-import Admin from './components/Admin/Admin';
-import HomePage from './components/Home/HomePage';
-import Dashboard from './components/Admin/Content/DashBoard';
-import ManageUser from './components/Admin/Content/ManageUser';
-import ManageQuiz from './components/Admin/Content/Quiz/ManageQuiz';
-import Login from './components/Auth/Login';
-import Signup from './components/Auth/Signup';
-import ListQuiz from './components/User/ListQuiz';
-import DetailQuiz from './components/User/DetailQuiz';
-import Questions from './components/Admin/Content/Question/Questions';
-import PrivateRoute from './routes/PrivateRoute';
-import { Suspense } from 'react';
+import App from "./App";
+import Admin from "./components/Admin/Admin";
+import HomePage from "./components/Home/HomePage";
+import Dashboard from "./components/Admin/Content/DashBoard";
+import ManageUser from "./components/Admin/Content/ManageUser";
+import ManageQuiz from "./components/Admin/Content/Quiz/ManageQuiz";
+import Login from "./components/Auth/Login";
+import Signup from "./components/Auth/Signup";
+import ListQuiz from "./components/User/ListQuiz";
+import DetailQuiz from "./components/User/DetailQuiz";
+import Questions from "./components/Admin/Content/Question/Questions";
+import PrivateRoute from "./routes/PrivateRoute";
+import { Suspense } from "react";
 
 const NotFound = () => {
-  return <div className="container alert alert-danger mt-4">404. Not Found data with your current URL</div>;
+  return (
+    <div className="container alert alert-danger mt-4">
+      404. Not Found data with your current URL
+    </div>
+  );
 };
 
 const Layout = () => {

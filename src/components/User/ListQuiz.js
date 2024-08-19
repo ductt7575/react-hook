@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { getQuizByUser } from '../../services/apiService';
-import './ListQuiz.scss';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from "react";
+import { getQuizByUser } from "../../services/apiService";
+import "./ListQuiz.scss";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ListQuiz = (props) => {
   const [arrQuiz, setArrQuiz] = useState([]);
@@ -28,18 +28,28 @@ const ListQuiz = (props) => {
           arrQuiz.map((quiz, index) => {
             return (
               <div key={`${index}-quiz`} className="col-lg-3 col-md-4 col-sm-6">
-                <div className="card w-100" style={{ width: '18rem' }}>
-                  <img src={`data:image/jpeg;base64,${quiz.image}`} className="border card-img-top" alt="..." />
+                <div className="card w-100" style={{ height: "430px" }}>
+                  <img
+                    src={`data:image/jpeg;base64,${quiz.image}`}
+                    className="border card-img-top"
+                    alt="..."
+                  />
                   <div className="card-body">
                     <h5 className="card-title">
-                      {t('listQuiz.quiz')} {index + 1}
+                      {t("listQuiz.quiz")} {index + 1}
                     </h5>
-                    <p className="card-text">{quiz.description}</p>
+                    <p className="card-text" style={{ height: "50px" }}>
+                      {quiz.description}
+                    </p>
                     <button
-                      className="btn btn-primary"
-                      onClick={() => navigate(`/quiz/${quiz.id}`, { state: { quizTitle: quiz.description } })}
+                      className="btn btn-primary t-auto"
+                      onClick={() =>
+                        navigate(`/quiz/${quiz.id}`, {
+                          state: { quizTitle: quiz.description },
+                        })
+                      }
                     >
-                      {t('listQuiz.btnStart')}
+                      {t("listQuiz.btnStart")}
                     </button>
                   </div>
                 </div>
@@ -48,7 +58,7 @@ const ListQuiz = (props) => {
           })}
         {arrQuiz && arrQuiz.length === 0 && (
           <div>
-            <p>{t('listQuiz.noQuiz')}</p>
+            <p>{t("listQuiz.noQuiz")}</p>
           </div>
         )}
       </div>

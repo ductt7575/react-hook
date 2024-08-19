@@ -1,50 +1,54 @@
-import { useEffect, useState } from 'react';
-import Select from 'react-select';
-import './QuizQA.scss';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { AiOutlineMinus } from 'react-icons/ai';
-import { RiImageAddFill } from 'react-icons/ri';
-import { v4 as uuidv4 } from 'uuid';
-import _ from 'lodash';
-import Lightbox from 'react-awesome-lightbox';
-import { getAllQuizForAdmin, getQuizWithQA, postUpsertQA } from '../../../../services/apiService';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import { useImmer } from 'use-immer';
-import { normalize, schema } from 'normalizr';
+import { useCallback, useEffect, useState } from "react";
+import Select from "react-select";
+import "./QuizQA.scss";
+import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineMinus } from "react-icons/ai";
+import { RiImageAddFill } from "react-icons/ri";
+import { v4 as uuidv4 } from "uuid";
+import _ from "lodash";
+import Lightbox from "react-awesome-lightbox";
+import {
+  getAllQuizForAdmin,
+  getQuizWithQA,
+  postUpsertQA,
+} from "../../../../services/apiService";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { useImmer } from "use-immer";
+import { normalize, schema } from "normalizr";
 
-const QuizQA = (props) => {
+const QuizQA = () => {
   const cauHoiId = uuidv4();
   const dapAnId = uuidv4();
   const [cauHoiObj, setCauHoiObj] = useImmer({
     [cauHoiId]: {
       id: cauHoiId,
-      description: '',
-      imageFile: '',
-      imageName: '',
+      description: "",
+      imageFile: "",
+      imageName: "",
       answers: [dapAnId],
     },
   });
   const [dapAnObj, setDapAnObj] = useImmer({
-    [dapAnId]: { id: dapAnId, description: '', isCorrect: false },
+    [dapAnId]: { id: dapAnId, description: "", isCorrect: false },
   });
 
   const initQuestions = [
     {
       id: uuidv4(),
-      description: '',
-      imageFile: '',
-      imageName: '',
-      answers: [{ id: uuidv4(), description: '', isCorrect: false }],
+      description: "",
+      imageFile: "",
+      imageName: "",
+      answers: [{ id: uuidv4(), description: "", isCorrect: false }],
     },
   ];
 
   const [questions, setQuestions] = useImmer(initQuestions);
 
-  const [isPreviewImage, setIsPreviewImage] = useState('false');
+  const [isPreviewImage, setIsPreviewImage] = useState("false");
   const [dataImagePreview, setDataImagePreview] = useState({
-    title: '',
-    url: '',
+    title: "",
+    url: "",
   });
 
   const [listQuiz, setListQuiz] = useState([]);
@@ -55,19 +59,13 @@ const QuizQA = (props) => {
     fetchQuiz();
   }, []);
 
-  useEffect(() => {
-    if (selectedQuiz && selectedQuiz.value) {
-      fetchQuizWithQA();
-    }
-  }, [selectedQuiz]);
-
-  function urltoFile(url, filename, mimeType) {
+  function urlToFile(url, filename, mimeType) {
     return fetch(url)
       .then((res) => res.arrayBuffer())
       .then((buf) => new File([buf], filename, { type: mimeType }));
   }
 
-  const fetchQuizWithQA = async () => {
+  const fetchQuizWithQA = useCallback(async () => {
     let res = await getQuizWithQA(selectedQuiz.value);
     if (res && res.EC === 0) {
       // convert base64 to file object
@@ -76,23 +74,32 @@ const QuizQA = (props) => {
         let q = res.DT.qa[i];
         if (q.imageFile) {
           q.imageName = `Question-${q.id}.png`;
-          q.imageFile = await urltoFile(`data:image/png;base64,${q.imageFile}`, `Question-${q.id}.png`, 'image/png');
+          q.imageFile = await urlToFile(
+            `data:image/png;base64,${q.imageFile}`,
+            `Question-${q.id}.png`,
+            "image/png"
+          );
         }
         newQA.push(q);
       }
       setQuestions(newQA);
 
-      //normalize data
-      const answer = new schema.Entity('answer');
-      const question = new schema.Entity('question', {
+      // normalize data
+      const answer = new schema.Entity("answer");
+      const question = new schema.Entity("question", {
         answers: [answer],
       });
       const d = normalize(newQA, [question]);
-      console.log('>>>> check new data:', d);
       setCauHoiObj(d.entities.question);
       setDapAnObj(d.entities.answer);
     }
-  };
+  }, [selectedQuiz.value, setCauHoiObj, setDapAnObj, setQuestions]);
+
+  useEffect(() => {
+    if (selectedQuiz && selectedQuiz.value) {
+      fetchQuizWithQA();
+    }
+  }, [fetchQuizWithQA, selectedQuiz]);
 
   const fetchQuiz = async () => {
     let res = await getAllQuizForAdmin();
@@ -108,21 +115,21 @@ const QuizQA = (props) => {
   };
 
   const handleAddRemoveQuestion = (type, id) => {
-    if (type === 'ADD') {
+    if (type === "ADD") {
       const cauHoiId = uuidv4();
       const dapAnId = uuidv4();
 
       const newQuestion = {
         id: cauHoiId,
-        description: '',
-        imageFile: '',
-        imageName: '',
+        description: "",
+        imageFile: "",
+        imageName: "",
         answers: [dapAnId],
       };
 
       const newAnswer = {
         id: dapAnId,
-        description: '',
+        description: "",
         isCorrect: false,
       };
 
@@ -134,9 +141,12 @@ const QuizQA = (props) => {
         draft[dapAnId] = newAnswer;
       });
     }
-    if (type === 'REMOVE') {
+    if (type === "REMOVE") {
       if (cauHoiObj[cauHoiId]) {
-        if (cauHoiObj[cauHoiId].answers && cauHoiObj[cauHoiId].answers.length > 0) {
+        if (
+          cauHoiObj[cauHoiId].answers &&
+          cauHoiObj[cauHoiId].answers.length > 0
+        ) {
           setDapAnObj((draft) => {
             cauHoiObj[cauHoiId].answers.forEach((item) => {
               delete draft[item];
@@ -152,9 +162,9 @@ const QuizQA = (props) => {
   };
 
   const handleAddRemoveAnswer = (type, qId, aId) => {
-    if (type === 'ADD') {
+    if (type === "ADD") {
       const dapAnId = uuidv4();
-      const newAnswer = { id: dapAnId, description: '', isCorrect: false };
+      const newAnswer = { id: dapAnId, description: "", isCorrect: false };
       setDapAnObj((draft) => {
         draft[dapAnId] = newAnswer;
       });
@@ -163,7 +173,7 @@ const QuizQA = (props) => {
         draft[qId].answers.push(dapAnId);
       });
     }
-    if (type === 'REMOVE') {
+    if (type === "REMOVE") {
       if (cauHoiObj[qId]) {
         setCauHoiObj((draft) => {
           let newAs = cauHoiObj[qId].answers.filter((item) => item !== aId);
@@ -179,7 +189,7 @@ const QuizQA = (props) => {
   };
 
   const handleOnchange = (type, qId, value, aId) => {
-    if (type === 'QUESTION') {
+    if (type === "QUESTION") {
       if (cauHoiObj[qId]) {
         setCauHoiObj((draft) => {
           draft[qId].description = value;
@@ -189,16 +199,21 @@ const QuizQA = (props) => {
   };
 
   const handleOnchangeFileQuestion = (qId, event) => {
-    if (cauHoiObj[qId] && event.target && event.target.files && event.target.files[0]) {
+    if (
+      cauHoiObj[qId] &&
+      event.target &&
+      event.target.files &&
+      event.target.files[0]
+    ) {
       setCauHoiObj((draft) => {
         draft[qId].imageFile = event.target.files[0];
-        var split = event.target.files[0].name.split('.');
+        var split = event.target.files[0].name.split(".");
         var filename = split[0];
         var extension = split[1];
         if (filename.length > 15) {
           filename = filename.substring(0, 15);
         }
-        draft[qId].imageName = filename + '.' + extension;
+        draft[qId].imageName = filename + "." + extension;
       });
     }
   };
@@ -206,11 +221,11 @@ const QuizQA = (props) => {
   const handleAnswerQuestion = (type, answerId, questionId, value) => {
     if (dapAnObj[answerId]) {
       setDapAnObj((draft) => {
-        if (type === 'CHECKBOX') {
+        if (type === "CHECKBOX") {
           draft[answerId].isCorrect = value;
         }
 
-        if (type === 'INPUT') {
+        if (type === "INPUT") {
           draft[answerId].description = value;
         }
       });
@@ -220,7 +235,7 @@ const QuizQA = (props) => {
   const handleSubmitQuestionForQuiz = async () => {
     //todo
     if (_.isEmpty(selectedQuiz)) {
-      toast.error('Please select a quiz');
+      toast.error("Please select a quiz");
       return;
     }
 
@@ -259,14 +274,20 @@ const QuizQA = (props) => {
     }
 
     if (isValidAnswer === false) {
-      toast.error(`Please enter Answer ${indexAnswer + 1} at Question ${indexQuestion + 1}`);
+      toast.error(
+        `Please enter Answer ${indexAnswer + 1} at Question ${
+          indexQuestion + 1
+        }`
+      );
       return;
     }
 
     let questionsClone = _.cloneDeep(questions);
     for (let i = 0; i < questionsClone.length; i++) {
       if (questionsClone[i].imageFile) {
-        questionsClone[i].imageFile = await toBase64(questionsClone[i].imageFile);
+        questionsClone[i].imageFile = await toBase64(
+          questionsClone[i].imageFile
+        );
       }
     }
 
@@ -303,10 +324,16 @@ const QuizQA = (props) => {
     <div className="questions-container">
       <div className="add-new-question">
         <div className="col-6 form-group">
-          <label className="mb-3 d-block fst-italic">{t('manageQuestion.selectQuiz')}</label>
-          <Select defaultValue={selectedQuiz} onChange={setSelectedQuiz} options={listQuiz} />
+          <label className="mb-3 d-block fst-italic">
+            {t("manageQuestion.selectQuiz")}
+          </label>
+          <Select
+            defaultValue={selectedQuiz}
+            onChange={setSelectedQuiz}
+            options={listQuiz}
+          />
         </div>
-        <p className="my-3 fst-italic">{t('manageQuestion.addQuestions')}</p>
+        <p className="my-3 fst-italic">{t("manageQuestion.addQuestions")}</p>
 
         {Object.keys(cauHoiObj).map((keyQ, index) => {
           return (
@@ -318,10 +345,17 @@ const QuizQA = (props) => {
                     className="form-control"
                     placeholder="name@example.com"
                     value={cauHoiObj[keyQ].description}
-                    onChange={(event) => handleOnchange('QUESTION', cauHoiObj[keyQ].id, event.target.value, '')}
+                    onChange={(event) =>
+                      handleOnchange(
+                        "QUESTION",
+                        cauHoiObj[keyQ].id,
+                        event.target.value,
+                        ""
+                      )
+                    }
                   />
                   <label>
-                    {t('manageQuestion.description')} {index + 1}
+                    {t("manageQuestion.description")} {index + 1}
                   </label>
                 </div>
                 <div className="group-upload">
@@ -332,22 +366,31 @@ const QuizQA = (props) => {
                     id={cauHoiObj[keyQ].id}
                     type="file"
                     hidden
-                    onChange={(event) => handleOnchangeFileQuestion(cauHoiObj[keyQ].id, event)}
+                    onChange={(event) =>
+                      handleOnchangeFileQuestion(cauHoiObj[keyQ].id, event)
+                    }
                   />
                   {cauHoiObj[keyQ].imageFile ? (
-                    <span style={{ cursor: 'pointer' }} onClick={() => handlePreviewImage(cauHoiObj[keyQ].id)}>
+                    <span
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handlePreviewImage(cauHoiObj[keyQ].id)}
+                    >
                       {cauHoiObj[keyQ].imageName}
                     </span>
                   ) : (
-                    <span>{t('manageQuestion.uploadImage')}</span>
+                    <span>{t("manageQuestion.uploadImage")}</span>
                   )}
                 </div>
                 <div className="btn-add">
-                  <span onClick={() => handleAddRemoveQuestion('ADD', '')}>
+                  <span onClick={() => handleAddRemoveQuestion("ADD", "")}>
                     <AiOutlinePlus className="icon-add" />
                   </span>
                   {Object.keys(cauHoiObj).length > 1 && (
-                    <span onClick={() => handleAddRemoveQuestion('REMOVE', cauHoiObj[keyQ].id)}>
+                    <span
+                      onClick={() =>
+                        handleAddRemoveQuestion("REMOVE", cauHoiObj[keyQ].id)
+                      }
+                    >
                       <AiOutlineMinus className="icon-remove" />
                     </span>
                   )}
@@ -365,10 +408,10 @@ const QuizQA = (props) => {
                           checked={dapAnObj[keyA].isCorrect}
                           onChange={(event) =>
                             handleAnswerQuestion(
-                              'CHECKBOX',
+                              "CHECKBOX",
                               dapAnObj[keyA].id,
                               cauHoiObj[keyQ].id,
-                              event.target.checked,
+                              event.target.checked
                             )
                           }
                         />
@@ -380,19 +423,36 @@ const QuizQA = (props) => {
                           placeholder="name@example.com"
                           value={dapAnObj[keyA].description}
                           onChange={(event) =>
-                            handleAnswerQuestion('INPUT', dapAnObj[keyA].id, cauHoiObj[keyQ].id, event.target.value)
+                            handleAnswerQuestion(
+                              "INPUT",
+                              dapAnObj[keyA].id,
+                              cauHoiObj[keyQ].id,
+                              event.target.value
+                            )
                           }
                         />
                         <label>
-                          {t('manageQuestion.answer')} {index + 1}
+                          {t("manageQuestion.answer")} {index + 1}
                         </label>
                       </div>
                       <div className="btn-group">
-                        <span onClick={() => handleAddRemoveAnswer('ADD', cauHoiObj[keyQ].id, '')}>
+                        <span
+                          onClick={() =>
+                            handleAddRemoveAnswer("ADD", cauHoiObj[keyQ].id, "")
+                          }
+                        >
                           <AiOutlinePlus className="icon-add" />
                         </span>
                         {Object.keys(dapAnObj).length > 1 && (
-                          <span onClick={() => handleAddRemoveAnswer('REMOVE', cauHoiObj[keyQ].id, dapAnObj[keyA].id)}>
+                          <span
+                            onClick={() =>
+                              handleAddRemoveAnswer(
+                                "REMOVE",
+                                cauHoiObj[keyQ].id,
+                                dapAnObj[keyA].id
+                              )
+                            }
+                          >
                             <AiOutlineMinus className="icon-remove" />
                           </span>
                         )}
@@ -406,8 +466,11 @@ const QuizQA = (props) => {
 
         {questions.length > 0 && questions && (
           <div>
-            <button onClick={() => handleSubmitQuestionForQuiz()} className="btn btn-warning">
-              {t('manageQuestion.save')}
+            <button
+              onClick={() => handleSubmitQuestionForQuiz()}
+              className="btn btn-warning"
+            >
+              {t("manageQuestion.save")}
             </button>
           </div>
         )}

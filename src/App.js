@@ -1,8 +1,7 @@
-import './App.scss';
-import SideBar from './components/Admin/SideBar';
-import Header from './components/Header/Header';
-import { Outlet } from 'react-router-dom';
-import PerfectScrollbar from 'react-perfect-scrollbar';
+import "./App.scss";
+import Header from "./components/Header/Header";
+import { Outlet } from "react-router-dom";
+import PerfectScrollbar from "react-perfect-scrollbar";
 
 const App = () => {
   return (

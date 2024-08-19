@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const CountDown = (props) => {
   const { onTimeUp } = props;
@@ -18,7 +18,7 @@ const CountDown = (props) => {
     return () => {
       clearInterval(timer);
     };
-  }, [duration]);
+  }, [duration, onTimeUp]);
 
   const toHHMMSS = (secs) => {
     const sec_num = parseInt(secs, 10);
@@ -27,9 +27,9 @@ const CountDown = (props) => {
     const seconds = sec_num % 60;
 
     return [hours, minutes, seconds]
-      .map((v) => (v < 10 ? '0' + v : v))
-      .filter((v, i) => v !== '00' || i > 0)
-      .join(':');
+      .map((v) => (v < 10 ? "0" + v : v))
+      .filter((v, i) => v !== "00" || i > 0)
+      .join(":");
   };
 
   return <div className="countdown-container">{toHHMMSS(duration)}</div>;

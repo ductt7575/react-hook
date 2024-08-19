@@ -1,30 +1,31 @@
-import { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { FcPlus } from 'react-icons/fc';
-import { toast } from 'react-toastify';
-import { putUpdateQuizForAdmin } from '../../../../services/apiService';
-import _ from 'lodash';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { FcPlus } from "react-icons/fc";
+import { toast } from "react-toastify";
+import { putUpdateQuizForAdmin } from "../../../../services/apiService";
+import _ from "lodash";
+import { useTranslation } from "react-i18next";
 
 const ModalUpdateQuiz = (props) => {
-  const { show, setShow, dataUpdateQuiz, resetUpdateDataQuiz, fetchQuiz } = props;
+  const { show, setShow, dataUpdateQuiz, resetUpdateDataQuiz, fetchQuiz } =
+    props;
 
   const handleClose = () => {
     setShow(false);
-    setName('');
-    setDescription('');
-    setType('');
-    setImage('');
-    setPreviewImage('');
+    setName("");
+    setDescription("");
+    setType("");
+    setImage("");
+    setPreviewImage("");
     resetUpdateDataQuiz();
   };
 
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [type, setType] = useState('');
-  const [image, setImage] = useState('');
-  const [previewImage, setPreviewImage] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState("");
+  const [image, setImage] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
 
   const { t } = useTranslation();
 
@@ -33,7 +34,7 @@ const ModalUpdateQuiz = (props) => {
       setName(dataUpdateQuiz.name);
       setDescription(dataUpdateQuiz.description);
       setType(dataUpdateQuiz.difficulty);
-      setImage('');
+      setImage("");
       if (dataUpdateQuiz.image) {
         setPreviewImage(`data:image/jpeg;base64,${dataUpdateQuiz.image}`);
       }
@@ -51,15 +52,21 @@ const ModalUpdateQuiz = (props) => {
 
   const handleSubmitUpdateQuiz = async () => {
     if (!name) {
-      toast.error('Invalid name');
+      toast.error("Invalid name");
       return;
     }
 
     if (!description) {
-      toast.error('Invalid description');
+      toast.error("Invalid description");
       return;
     }
-    let data = await putUpdateQuizForAdmin(dataUpdateQuiz.id, description, name, type, image);
+    let data = await putUpdateQuizForAdmin(
+      dataUpdateQuiz.id,
+      description,
+      name,
+      type,
+      image
+    );
     if (data && data.EC === 0) {
       toast.success(data.EM);
       handleClose();
@@ -73,15 +80,23 @@ const ModalUpdateQuiz = (props) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className="modal-add-user">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="xl"
+        backdrop="static"
+        className="modal-add-user"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>{t('manageQuiz.listQuiz.modalEdit.heading')}</Modal.Title>
+          <Modal.Title>
+            {t("manageQuiz.listQuiz.modalEdit.heading")}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
             <div className="col-md-6">
               <label className="form-label">
-                {t('manageQuiz.name')} <span className="text-danger">(*)</span>
+                {t("manageQuiz.name")} <span className="text-danger">(*)</span>
               </label>
               <input
                 type="text"
@@ -92,7 +107,8 @@ const ModalUpdateQuiz = (props) => {
             </div>
             <div className="col-md-6">
               <label className="form-label">
-                {t('manageQuiz.description')} <span className="text-danger">(*)</span>
+                {t("manageQuiz.description")}{" "}
+                <span className="text-danger">(*)</span>
               </label>
               <input
                 type="text"
@@ -102,8 +118,12 @@ const ModalUpdateQuiz = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">{t('manageQuiz.difficulty')}</label>
-              <select className="form-select" onChange={(event) => setType(event.target.value)} value={type}>
+              <label className="form-label">{t("manageQuiz.difficulty")}</label>
+              <select
+                className="form-select"
+                onChange={(event) => setType(event.target.value)}
+                value={type}
+              >
                 <option value="Not Selected">Select Difficulty</option>
                 <option value="EASY">EASY</option>
                 <option value="MEDIUM">MEDIUM</option>
@@ -112,22 +132,31 @@ const ModalUpdateQuiz = (props) => {
             </div>
             <div className="col-md-12">
               <label className="form-label label-upload" htmlFor="labelUpload">
-                <FcPlus /> {t('manageQuiz.listQuiz.modalEdit.uploadImage')}
+                <FcPlus /> {t("manageQuiz.listQuiz.modalEdit.uploadImage")}
               </label>
-              <input type="file" id="labelUpload" hidden onChange={(event) => handleUploadImage(event)} />
+              <input
+                type="file"
+                id="labelUpload"
+                hidden
+                onChange={(event) => handleUploadImage(event)}
+              />
             </div>
 
             <div className="col-md-12 img-preview">
-              {previewImage ? <img src={previewImage} /> : <span>Preview Image</span>}
+              {previewImage ? (
+                <img src={previewImage} alt="previewImage" />
+              ) : (
+                <span>Preview Image</span>
+              )}
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            {t('close')}
+            {t("close")}
           </Button>
           <Button variant="warning" onClick={() => handleSubmitUpdateQuiz()}>
-            {t('save')}
+            {t("save")}
           </Button>
         </Modal.Footer>
       </Modal>

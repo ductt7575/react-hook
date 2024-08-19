@@ -1,9 +1,9 @@
-import videoHompage from '../../assets/video/video-homepage.mp4';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation, Trans } from 'react-i18next';
+import videoHompage from "../../assets/video/video-homepage.mp4";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const HomePage = (props) => {
+const HomePage = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -15,18 +15,24 @@ const HomePage = (props) => {
         </video>
       </div>
       <div className="homepage-content w-50">
-        <h1 className="heading1">{t('homepage.heading1')}</h1>
+        <h1 className="heading1">{t("homepage.heading1")}</h1>
 
-        <p style={{ lineHeight: '1.76' }} className="desc mt-3 mb-4 w-75">
-          {t('homepage.desc')}
+        <p style={{ lineHeight: "1.76" }} className="desc mt-3 mb-4 w-75">
+          {t("homepage.desc")}
         </p>
         {isAuthenticated ? (
-          <button className="my-btn btn-start" onClick={() => navigate(`/user`)}>
-            {t('homepage.btnStart.doQuiz')}
+          <button
+            className="my-btn btn-start"
+            onClick={() => navigate(`/user`)}
+          >
+            {t("homepage.btnStart.doQuiz")}
           </button>
         ) : (
-          <button className="my-btn btn-start" onClick={() => navigate(`/login`)}>
-            {t('homepage.btnStart.login')}
+          <button
+            className="my-btn btn-start"
+            onClick={() => navigate(`/login`)}
+          >
+            {t("homepage.btnStart.login")}
           </button>
         )}
       </div>

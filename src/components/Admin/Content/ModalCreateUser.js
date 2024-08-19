@@ -1,31 +1,31 @@
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { FcPlus } from 'react-icons/fc';
-import { toast } from 'react-toastify';
-import { postCreateNewUser } from '../../../services/apiService';
-import { useTranslation } from 'react-i18next';
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { FcPlus } from "react-icons/fc";
+import { toast } from "react-toastify";
+import { postCreateNewUser } from "../../../services/apiService";
+import { useTranslation } from "react-i18next";
 
 const ModalCreateUser = (props) => {
-  const { show, setShow, currentPage, setCurrentPage } = props;
+  const { show, setShow, setCurrentPage } = props;
   const { t } = useTranslation();
 
   const handleClose = () => {
     setShow(false);
-    setEmail('');
-    setPassword('');
-    setUsername('');
-    setRole('USER');
-    setImage('');
-    setPreviewImage('');
+    setEmail("");
+    setPassword("");
+    setUsername("");
+    setRole("USER");
+    setImage("");
+    setPreviewImage("");
   };
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [role, setRole] = useState('USER');
-  const [image, setImage] = useState('');
-  const [previewImage, setPreviewImage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [role, setRole] = useState("USER");
+  const [image, setImage] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
 
   const handleUploadImage = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
@@ -40,7 +40,7 @@ const ModalCreateUser = (props) => {
     return String(email)
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
 
@@ -48,11 +48,11 @@ const ModalCreateUser = (props) => {
     // validate
     const isValidEmail = validateEmail(email);
     if (!isValidEmail) {
-      toast.error('Invalid email');
+      toast.error("Invalid email");
       return;
     }
     if (!password) {
-      toast.error('Invalid password');
+      toast.error("Invalid password");
       return;
     }
     //call apis
@@ -71,9 +71,15 @@ const ModalCreateUser = (props) => {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className="modal-add-user">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="xl"
+        backdrop="static"
+        className="modal-add-user"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>{t('manageUser.create.heading')}</Modal.Title>
+          <Modal.Title>{t("manageUser.create.heading")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
@@ -87,7 +93,7 @@ const ModalCreateUser = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">{t('password')}</label>
+              <label className="form-label">{t("password")}</label>
               <input
                 type="password"
                 className="form-control"
@@ -96,7 +102,7 @@ const ModalCreateUser = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">{t('username')}</label>
+              <label className="form-label">{t("username")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -105,8 +111,12 @@ const ModalCreateUser = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">{t('role')}</label>
-              <select className="form-select" value={role} onChange={(event) => setRole(event.target.value)}>
+              <label className="form-label">{t("role")}</label>
+              <select
+                className="form-select"
+                value={role}
+                onChange={(event) => setRole(event.target.value)}
+              >
                 <option value="USER">USER</option>
                 <option value="ADMIN">ADMIN</option>
               </select>
@@ -114,22 +124,31 @@ const ModalCreateUser = (props) => {
 
             <div className="col-md-12">
               <label className="form-label label-upload" htmlFor="label-upload">
-                <FcPlus /> {t('manageUser.create.uploadImage')}
+                <FcPlus /> {t("manageUser.create.uploadImage")}
               </label>
-              <input type="file" id="label-upload" hidden onChange={(event) => handleUploadImage(event)} />
+              <input
+                type="file"
+                id="label-upload"
+                hidden
+                onChange={(event) => handleUploadImage(event)}
+              />
             </div>
 
             <div className="col-md-12 img-preview">
-              {previewImage ? <img src={previewImage} /> : <span>{t('previewImage')}</span>}
+              {previewImage ? (
+                <img src={previewImage} alt="previewImage" />
+              ) : (
+                <span>{t("previewImage")}</span>
+              )}
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            {t('close')}
+            {t("close")}
           </Button>
           <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
-            {t('save')}
+            {t("save")}
           </Button>
         </Modal.Footer>
       </Modal>
